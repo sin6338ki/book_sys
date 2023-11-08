@@ -1,0 +1,18 @@
+#context-root 설정
+server.servlet.context-path=/api
+#server port number
+server.port=8085
+
+# EX. DB연결정보  
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+spring.datasource.url=jdbc:mariadb://localhost:3306/book_sys
+spring.datasource.username=book_sys
+spring.datasource.password=book_sys_12345
+
+# Springdoc(Swagger) 설정
+springdoc.default-consumes-media-type=application/json;charset=UTF-8
+springdoc.default-produces-media-type=application/json;charset=UTF-8
+springdoc.show-actuator=true
+springdoc.api-docs.enabled=true
+springdoc.swagger-ui.enabled=true
+springdoc.enable-javadoc=true

@@ -1,0 +1,11 @@
+package com.sjy.book_sys.dto;
+
+/**
+ * 회원가입시 프론트엔드에서 받는 정보
+ * 
+ * @author 신지영
+ * @version 1.0
+ */
+public class MemberDto {
+
+}

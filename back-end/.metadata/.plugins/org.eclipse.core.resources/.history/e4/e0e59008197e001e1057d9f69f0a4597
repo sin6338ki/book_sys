@@ -1,0 +1,36 @@
+package com.sjy.book_sys.service;
+
+import org.springframework.stereotype.Service;
+
+import com.sjy.book_sys.dto.MemberDto;
+import com.sjy.book_sys.mapper.MemberMapper;
+
+import lombok.RequiredArgsConstructor;
+
+/**
+ * 회원 관련 서비스 
+ * 
+ * @author 신지영
+ * @version 1.0
+ */
+@RequiredArgsConstructor
+@Service
+public class MemberService {
+	
+	private final MemberMapper memberMapper;
+	
+	/**
+	 * 회원가입 메소드
+	 * 
+	 * @return 회원가입 성공시 "success", 실패시 "fail"
+	 */
+	public String signup(MemberDto memberDto) {
+		int isSuccess = memberMapper.signup(memberDto);
+		if(isSuccess > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
+}

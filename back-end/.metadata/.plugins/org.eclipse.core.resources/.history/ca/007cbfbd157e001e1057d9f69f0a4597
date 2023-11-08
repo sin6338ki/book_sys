@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.smhrd.haru.mapper.MainMapper">
+  	<select id="recNutriList" resultType="com.smhrd.haru.domain.TblNutriRecBasic">
+  		select * from tbl_nutri_rec_basic where gender=#{gender} and age_range=#{age_range}
+  	</select>
+  	
+	<select id="memberInfo" resultType="com.smhrd.haru.domain.HaruMember">
+		select * from harumember where user_id = #{user_id} or sns_user_id = #{user_id}
+	</select>
+   </mapper>

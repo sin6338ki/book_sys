@@ -1,0 +1,18 @@
+package com.sjy.book_sys;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+/**
+ * cors 설정을 위한 configuration
+ * 
+ * @author 신지영
+ * @since 2023.11.08
+ * @version 1.0
+ */
+
+@Configuration
+@EnableWebMvc
+public class BookSysConfig {
+
+}

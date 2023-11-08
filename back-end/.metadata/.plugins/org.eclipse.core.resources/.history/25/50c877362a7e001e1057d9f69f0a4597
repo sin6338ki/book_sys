@@ -1,0 +1,49 @@
+package com.sjy.book_sys.model;
+
+import java.time.LocalDateTime;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+/**
+ * Member Entity
+ * 사용자 정보를 담는 엔터티
+ * 
+ * @author 신지영
+ * @version 1.0
+ */
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+public class MemberDto {
+
+	private String memberId;
+	private String memberPw;
+	private String memberName;
+	private int memberYype;
+	private LocalDateTime memberRegDt;
+	private int memberLoanCnt;
+	
+	@Builder
+	public MemberDto(String member_id, String member_pw, String member_name) {
+		this.memberId = member_id;
+		this.memberPw = member_pw;
+		this.memberName = member_name;
+	}
+	
+	/**
+	 * password 인코딩 메서드
+	 */
+	public void encodingPassword(PasswordEncoder passwordEncoder) {
+		if(StringUtils.isEmpty(memberPw)) {
+			return;
+		}
+		memberPw = passwordEncoder.encode(memberPw);
+		
+	}
+}

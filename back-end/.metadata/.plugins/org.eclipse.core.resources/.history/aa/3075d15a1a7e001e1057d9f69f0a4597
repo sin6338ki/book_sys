@@ -1,0 +1,15 @@
+package com.sjy.book_sys.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.sjy.book_sys.dto.MemberDto;
+
+@Mapper
+public interface MemberMapper {
+	/**
+	 * 회원가입
+	 * 
+	 *@return 성공시 1 이상, 실패시 0
+	 */
+	public int signup(MemberDto memberDto);  
+}

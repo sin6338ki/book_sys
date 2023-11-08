@@ -1,0 +1,54 @@
+package com.sjy.book_sys.service;
+
+import org.springframework.stereotype.Service;
+
+import com.sjy.book_sys.dto.MemberDto;
+import com.sjy.book_sys.mapper.MemberMapper;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * 회원 관련 서비스 
+ * 
+ * @author 신지영
+ * @version 1.0
+ */
+@Slf4j
+@RequiredArgsConstructor
+@Service
+public class MemberService {
+	
+	private final MemberMapper memberMapper;
+	
+	/**
+	 * 회원가입 메소드
+	 * 
+	 * @return 회원가입 성공시 "success", 실패시 "fail"
+	 */
+	public String signup(MemberDto memberDto) {
+		int isSuccess = memberMapper.signup(memberDto);
+		if(isSuccess > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
+	/**
+	 * 중복 id 확인 메서드
+	 * 
+	 * @return 중복 아이디 있는 경우 true, 없는 경우 false
+	 */
+	public boolean checkId(String memberId) {
+		String sameId = memberMapper.checkId(memberId);
+		log.info("sameId : ", sameId);
+		
+		if(sameId == null) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+}

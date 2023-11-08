@@ -1,0 +1,30 @@
+package com.sjy.book_sys.dto;
+
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+/**
+ * 회원가입시 프론트엔드에서 받는 정보
+ * 
+ * @author 신지영
+ * @version 1.0
+ */
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+public class MemberDto {
+	private String member_id;
+	private String member_pw;
+	private final String member_name;
+	
+	@Builder
+	public MemberDto(String member_id, String member_pw, String member_name) {
+		this.member_id = member_id;
+		this.member_pw = member_pw;
+		this.member_name = member_name;
+	}
+	
+	
+}

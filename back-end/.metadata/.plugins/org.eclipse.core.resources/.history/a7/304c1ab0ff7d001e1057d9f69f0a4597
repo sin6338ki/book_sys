@@ -1,0 +1,28 @@
+package com.sjy.book_sys.model;
+
+import java.time.LocalDateTime;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+/**
+ * Member Entity
+ * 사용자 정보를 담는 엔터티
+ * 
+ * @author 신지영
+ * @version 1.0
+ */
+
+@Builder
+@Getter
+public class Member {
+
+	private String member_id;
+	private String member_pw;
+	private String member_name;
+	private int member_type;
+	private LocalDateTime member_reg_dt;
+	private int member_loan_cnt;
+	
+}

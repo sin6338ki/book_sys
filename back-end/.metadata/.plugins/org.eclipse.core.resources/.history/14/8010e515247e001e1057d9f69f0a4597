@@ -1,0 +1,19 @@
+package com.sjy.book_sys.dto;
+
+import lombok.Builder;
+import lombok.Getter;
+
+/**
+ * 회원가입시 프론트엔드에서 받는 정보
+ * 
+ * @author 신지영
+ * @version 1.0
+ */
+
+@Builder
+@Getter
+public class MemberDto {
+	private final String member_id;
+	private final String member_pw;
+	private final String member_name;
+}

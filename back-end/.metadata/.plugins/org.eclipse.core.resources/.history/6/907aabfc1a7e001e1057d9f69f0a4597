@@ -1,0 +1,25 @@
+package com.sjy.book_sys.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.sjy.book_sys.dto.MemberDto;
+import com.sjy.book_sys.model.Member;
+
+@Mapper
+public interface MemberMapper {
+
+	/**
+	 * 회원가입 Mapper
+	 * @param memberDto
+	 * @return
+	 */
+	public int signup(MemberDto memberDto);
+	
+	/**
+	 * 
+	 * @param memberId
+	 * @return 중복 아이디 있는 경우 id, 없는 경우 null 반환
+	 */
+	public String checkId(String memberId);
+	
+}

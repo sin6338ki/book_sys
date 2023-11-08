@@ -1,0 +1,5 @@
+package com.sjy.book_sys.dto;
+
+public class MemberDto {
+
+}

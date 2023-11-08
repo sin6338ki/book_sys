@@ -1,0 +1,71 @@
+package com.sjy.book_sys.model;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+/**
+ * Member Entity
+ * 사용자 정보를 담는 엔터티
+ * 
+ * @author 신지영
+ * @version 1.0
+ */
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+public class MemberDto {
+	private String memberId;
+	private String memberPw;
+	private String memberName;
+	private int memberType;
+	
+	/**
+	 * 회원가입시 사용하는 생성자
+	 * @param memberId
+	 * @param memberPw
+	 * @param memberName
+	 */
+	@Builder(builderMethodName = "signupDto")
+	public MemberDto(String memberId, String memberPw, String memberName) {
+		this.memberId = memberId;
+		this.memberPw = memberPw;
+		this.memberName = memberName;
+	}
+	
+	/**
+	 * 로그인시 사용하는 생성자
+	 * @param memberId
+	 * @param memberPw
+	 */
+	@Builder
+	public MemberDto(String memberId, String memberPw) {
+		this.memberId = memberId;
+		this.memberPw = memberPw;
+	}
+	
+	/**
+	 * 로그인 성공시 응답 데이터
+	 * @param memberId
+	 * @param memberType
+	 */
+	@Builder
+	public MemberDto(String memberId, int memberType) {
+		this.memberId = memberId;
+		this.memberType = memberType;
+	}
+	
+	/**
+	 * password 인코딩 메서드
+	 */
+	public void encodingPassword(PasswordEncoder passwordEncoder) {
+		if(StringUtils.isEmpty(memberPw)) {
+			return;
+		}
+		memberPw = passwordEncoder.encode(memberPw);
+	}
+}

@@ -92,31 +92,75 @@ const Join = () => {
   };
 
   return (
-    <div>
-      <h4>회원가입</h4>
-      <div>아이디</div>
-      <input type="text" value={inputId} onChange={saveId} />
-      <button
-        onClick={() => {
-          checkId();
-        }}
-      >
-        아이디 중복 체크
-      </button>
-      <div>비밀번호</div>
-      <input type="password" value={inputPw} onChange={savePw} />
-      <div>비밀번호 확인</div>
-      <input type="password" onChange={checkPw} />
-      <div>이름</div>
-      <input type="text" value={inputName} onChange={saveName} />
-      <button
-        onClick={() => {
-          signup();
-        }}
-      >
-        가입하기
-      </button>
-      <Link to="/">돌아가기</Link>
+    <div className="flex flex-row h-screen w-auto">
+      <img
+        className="w-2/3"
+        src="https://images.unsplash.com/photo-1595509022687-8d8f3a00a46a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ></img>
+      <div className="flex flex-col h-screen w-auto">
+        <h4 className="text-[2rem] font-extrabold p-16">회원가입</h4>
+        <div className="border border-gray-500 rounded-md p-2 w-[540px] ml-14">
+          <p className="text-xs">아이디</p>
+          <input
+            className="bg-blue-100 w-[520px] p-1 mt-1"
+            type="text"
+            value={inputId}
+            onChange={saveId}
+          />
+          <button
+            className="bg-gray-100 p-2 mt-2 w-[520px] rounded-md text-gray-500"
+            onClick={() => {
+              checkId();
+            }}
+          >
+            아이디 중복 체크
+          </button>
+        </div>
+
+        <div className="mt-5 border border-gray-500 rounded-md p-2 w-[540px] ml-14">
+          <p className="text-xs">비밀번호</p>
+          <input
+            className="bg-blue-100 w-[520px] p-1 mt-1"
+            type="password"
+            value={inputPw}
+            onChange={savePw}
+          />
+        </div>
+
+        <div className="mt-5 border border-gray-500 rounded-md p-2 w-[540px] ml-14">
+          <p className="text-xs">비밀번호 확인</p>
+          <input
+            className="bg-blue-100 w-[520px] p-1 mt-1"
+            type="password"
+            onChange={checkPw}
+          />
+        </div>
+
+        <div className="mt-5 border border-gray-500 rounded-md p-2 w-[540px] ml-14">
+          <p className="text-xs">이름</p>
+          <input
+            className="bg-blue-100 w-[520px] p-1 mt-1"
+            type="text"
+            value={inputName}
+            onChange={saveName}
+          />
+        </div>
+
+        <button
+          className="bg-yellow-200 text-lg p-2 mt-5 w-[540px] ml-14 rounded-md text-gray-500"
+          onClick={() => {
+            signup();
+          }}
+        >
+          가입하기
+        </button>
+        <Link
+          className="bg-gray-300 text-lg text-center p-2 mt-5 w-[540px] ml-14 rounded-md text-gray-500"
+          to="/"
+        >
+          돌아가기
+        </Link>
+      </div>
     </div>
   );
 };

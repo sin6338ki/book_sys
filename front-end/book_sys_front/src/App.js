@@ -7,12 +7,15 @@ import Join from "./components/member/Join";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Main />} />
-      <Route path="/menu" element={<Menu />} />
-      <Route path="/join" element={<Join />} />
-      <Route path="/login" element={<Login />} />
-    </Routes>
+    <div className="font-Suite">
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/join" element={<Join />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/book-sys" element={<Menu />} />
+      </Routes>
+    </div>
   );
 }
 

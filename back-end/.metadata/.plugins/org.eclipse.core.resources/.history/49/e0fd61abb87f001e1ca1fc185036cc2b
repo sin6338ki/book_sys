@@ -1,0 +1,32 @@
+package com.sjy.book_sys.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import com.sjy.book_sys.model.Book;
+import com.sjy.book_sys.model.BookRegDto;
+
+
+@Mapper
+public interface BookMapper {
+
+	/**
+	 * 책 등록 mapper
+	 * @param bookRegDto
+	 * @return
+	 */
+	@Insert("insert into book (book_name, book_writer, book_publisher, book_cnt) values (#{bookName}, #{bookWriter}, #{bookPublisher}, #{bookCnt})")
+	public int regBook(BookRegDto bookRegDto);
+	
+
+	/**
+	 * 도서명 검색 mapper
+	 * @param bookName
+	 * @return Book
+	 */
+	@Select("select * from book where book_name like #{bookName}")
+	public List<Book> searchBook(String bookName);
+}

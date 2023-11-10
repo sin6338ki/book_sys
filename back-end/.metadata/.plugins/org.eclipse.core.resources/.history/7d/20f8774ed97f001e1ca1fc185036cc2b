@@ -1,0 +1,12 @@
+package com.sjy.book_sys.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.sjy.book_sys.model.RentDto;
+
+@Mapper
+public interface RentMapper {
+
+	@Insert("insert into rent (book_id, member_id) values (#{bookId}, #{memberId})")
+	public int applyRent(RentDto rentDto);
+}

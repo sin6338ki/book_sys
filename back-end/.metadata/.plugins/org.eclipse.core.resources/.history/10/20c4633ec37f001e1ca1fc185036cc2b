@@ -1,0 +1,59 @@
+package com.sjy.book_sys.controller;
+
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.sjy.book_sys.model.Book;
+import com.sjy.book_sys.model.BookRegDto;
+import com.sjy.book_sys.model.BookResDto;
+import com.sjy.book_sys.service.BookService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * 도서 관련 Controller
+ * 
+ * @author 신지영
+ * @since 2023.11.10
+ */
+@Tag(name = "도서 Controller", description = "도서 등록")
+@Slf4j
+@RequiredArgsConstructor
+@RestController
+public class BookController {
+	
+	
+	private final BookService bookService;
+	
+	@Operation(summary="책 등록 API", description="요청 데이터를 책 엔터티에 저장합니다.")
+	@PostMapping("/api/book")
+	public ResponseEntity<?> regBook(@RequestBody BookRegDto bookRegDto){
+		try {
+			String regResult = bookService.regBook(bookRegDto);
+			log.info("{}", regResult);
+			return ResponseEntity.ok().body(regResult);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
+	}
+	
+	@Operation(summary="도서명 검색 API", description="도서명 키워드로 검색한 결과를 조회합니다.")
+	@GetMapping("/api/book")
+	public ResponseEntity<?> searchBook(@RequestParam("keyword") String keyword){
+		List<BookResDto> resultList = bookService.searchBook(keyword);
+		return ResponseEntity.ok().body(resultList);
+	}
+}

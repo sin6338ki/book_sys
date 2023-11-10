@@ -1,0 +1,32 @@
+package com.sjy.book_sys.model;
+
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+/**
+ * 도서 검색 결과 Response DTO
+ * @author 신지영
+ * @since 2023.11.10
+ */
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+public class BookResDto {
+	private String bookName;
+	private String bookWriter;
+	private String bookPublisher;
+	private int bookCnt;
+	private int bookRentalCnt;
+	
+	@Builder
+	public BookResDto(String book_name, String book_writer, String book_publisher, int book_cnt, int book_rental_cnt) {
+		this.bookName = book_name;
+		this.bookWriter = book_writer;
+		this.bookPublisher = book_publisher;
+		this.bookCnt = book_cnt;
+		this.bookRentalCnt = book_rental_cnt;
+	}
+	
+	
+}

@@ -1,13 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Menu = () => {
   const navigate = useNavigate();
+  const loginId = useSelector((state) => state.saveLoginInfo.loginId);
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-yellow-100 to-pink-100">
-      <h1 className="text-4xl mb-20 self-start ml-36 font-bold">
+      <h1 className="text-4xl self-start ml-36 font-bold">
         셀프 도서 대출 시스템
       </h1>
+      <p className="self-start ml-36 mt-3">안녕하세요, {loginId}님!</p>
       <div className="flex flex-row">
         <button
           className="rounded-lg text-4xl font-extrabold px-32 py-40 bg-yellow-300 m-5"

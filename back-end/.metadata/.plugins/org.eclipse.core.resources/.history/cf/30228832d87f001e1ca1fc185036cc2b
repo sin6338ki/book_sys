@@ -1,0 +1,11 @@
+package com.sjy.book_sys.model;
+
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+public class RentDto {
+	
+	private String book_id;
+	pirvate String
+
+}

@@ -1,0 +1,8 @@
+package com.sjy.book_sys.model;
+
+public class RentDto {
+	
+	private String book_id;
+	private String
+
+}

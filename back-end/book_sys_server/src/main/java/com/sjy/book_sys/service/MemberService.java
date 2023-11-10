@@ -13,10 +13,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 회원 관련 서비스 
- * 
+ * 회원 관련 Service
  * @author 신지영
- * @version 1.0
+ * @since 2023.11.08
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -28,11 +27,11 @@ public class MemberService {
 	
 	/**
 	 * 회원가입 메소드
-	 * 
 	 * @return 회원가입 성공시 "success", 실패시 "fail"
 	 */
 	public String signup(MemberDto member) {
 		member.encodingPassword(passwordEncoder);
+		log.info("signup password : {}", member.getMemberPw());
 		int isSuccess = memberMapper.signup(member);
 		if(isSuccess > 0) {
 			return "success";
@@ -43,7 +42,6 @@ public class MemberService {
 	
 	/**
 	 * 중복 id 확인 메서드
-	 * 
 	 * @return 중복 아이디 있는 경우 true, 없는 경우 false
 	 */
 	public boolean checkId(String memberId) {
@@ -57,11 +55,25 @@ public class MemberService {
 		}
 	}
 	
+	/**
+	 * 로그인 메서드
+	 * @param member (LoginDto)
+	 * @return LoginResDto
+	 */
 	public LoginResDto login(LoginDto member) {
-		member.encodingPassword(passwordEncoder);
-		log.info("pw : {}", member.getMemberPw());
-		Member loginResult = memberMapper.login(member);
-		return LoginResDto.builder().memberId(loginResult.getMemberId()).memberType(loginResult.getMemberType()).build();
+		Member inqueryResult = memberMapper.login(member);
+		if(inqueryResult != null) {
+			if(passwordEncoder.matches(member.getMemberPw(), inqueryResult.getMemberPw())) {			
+				log.info("비밀번호 일치");
+				return LoginResDto.builder().memberId(inqueryResult.getMemberId()).memberType(inqueryResult.getMemberType()).build();
+			}else {
+				log.info("비밀번호 불일치");
+				throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+			}			
+		}else {
+			throw new IllegalArgumentException("사용자가 존재하지 않습니다.");
+		}
+
 	}
 	
 }

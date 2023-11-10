@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { saveInfo } from "../../saveLoginInfo";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   //사용자가 입력한 아이디, 패스워드
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
@@ -13,16 +17,21 @@ const Login = () => {
     const loginMember = {
       memberId: inputId,
       memberPw: inputPw,
-      memberName: "",
     };
     axios
       .post(`${process.env.REACT_APP_API_URL}/login`, loginMember)
       .then((res) => {
-        console.log("login res : ", res);
-        navigate("/book-sys");
+        console.log("login res : ", res.data);
+        //리덕스에 로그인한 사용자 아이디 저장
+        if (res.status === 200) {
+          dispatch(saveInfo(res.data.memberId, res.data.memberType));
+          navigate("/book-sys");
+        }
       })
       .catch((e) => {
         console.log("login error : ", e);
+        const message = e.response.data;
+        alert(message);
       });
   };
 

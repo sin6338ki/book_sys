@@ -1,0 +1,46 @@
+package com.sjy.book_sys.controller;
+
+import java.sql.SQLIntegrityConstraintViolationException;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.sjy.book_sys.model.BookRegDto;
+import com.sjy.book_sys.service.BookService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * 도서 관련 Controller
+ * 
+ * @author 신지영
+ * @since 2023.11.10
+ */
+@Tag(name = "도서 Controller", description = "도서 등록")
+@Slf4j
+@RequiredArgsConstructor
+@RestController
+public class BookController {
+	
+	
+	private final BookService bookService;
+	
+	@Operation(summary="책 등록 API", description="요청 데이터를 책 엔터티에 저장합니다.")
+	@PostMapping("/api/book")
+	public ResponseEntity<?> regBook(@RequestBody BookRegDto bookRegDto){
+		try {
+			String regResult = bookService.regBook(bookRegDto);
+			log.info("{}", regResult);
+			return ResponseEntity.ok().body(regResult);
+		}catch(SQLIntegrityConstraintViolationException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+}

@@ -1,0 +1,21 @@
+package com.sjy.book_sys.model;
+
+import java.time.LocalDateTime;
+
+public class BookResDto {
+	private String bookName;
+	private String bookWriter;
+	private String bookPublisher;
+	private int bookCnt;
+	private int bookRentalCnt;
+	
+	public BookResDto(String bookName, String bookWriter, String bookPublisher, int bookCnt, int bookRentalCnt) {
+		this.bookName = bookName;
+		this.bookWriter = bookWriter;
+		this.bookPublisher = bookPublisher;
+		this.bookCnt = bookCnt;
+		this.bookRentalCnt = bookRentalCnt;
+	}
+	
+	
+}

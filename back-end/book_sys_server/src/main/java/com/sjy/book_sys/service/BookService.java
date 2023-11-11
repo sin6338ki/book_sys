@@ -1,16 +1,15 @@
 package com.sjy.book_sys.service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.sjy.book_sys.mapper.BookMapper;
-import com.sjy.book_sys.model.Book;
 import com.sjy.book_sys.model.BookRegDto;
 import com.sjy.book_sys.model.BookResDto;
+import com.sjy.book_sys.model.BookUpdateDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +46,6 @@ public class BookService {
 		}
 	}
 	
-	
 	/**
 	 * 검색 결과 조회 service
 	 * @param keyword
@@ -60,6 +58,20 @@ public class BookService {
 			return resultList;
 		}else {
 			throw new NullPointerException("검색 결과가 없습니다");
+		}
+	}
+	
+	/**
+	 * 도서 정보 수정 service
+	 * @param bookUpdateDto
+	 * @return 성공시 update success
+	 */
+	public String updateBookInfo(BookUpdateDto bookUpdateDto) {
+		int updateResult = bookMapper.updateBookInfo(bookUpdateDto);
+		if(updateResult > 0) {
+			return "update success";
+		}else {
+			throw new NullPointerException("bookId가 존재하지 않습니다");
 		}
 	}
 }

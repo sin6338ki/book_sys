@@ -21,9 +21,8 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI springShopOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("SELF BOOK Rental Service")
-                        .description("셀프 도서 대출 서비스 API 명세서 입니다.")
+                .info(new Info().title("Book Rental Service")
+                        .description("도서 대출 서비스 API 명세서 입니다.")
                         .version("v0.0.1"));
     }
-
 }

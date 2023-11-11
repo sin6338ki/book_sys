@@ -1,0 +1,24 @@
+package com.sjy.book_sys.model;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+public class RentListResDto {
+	private String member_id;
+	private String rent_dt;
+	private String return_dt;
+	private String expected_return_dt;
+	private String overdue_dt;
+	
+	public RentListResDto(String member_id, String rent_dt, String return_dt, String expected_return_dt,
+			String overdue_dt) {
+		this.member_id = member_id;
+		this.rent_dt = rent_dt;
+		this.return_dt = return_dt;
+		this.expected_return_dt = expected_return_dt;
+		this.overdue_dt = overdue_dt;
+	}	
+}

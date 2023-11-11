@@ -1,21 +1,20 @@
 package com.sjy.book_sys.controller;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sjy.book_sys.model.Book;
 import com.sjy.book_sys.model.BookRegDto;
 import com.sjy.book_sys.model.BookResDto;
+import com.sjy.book_sys.model.BookUpdateDto;
 import com.sjy.book_sys.service.BookService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,7 +33,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RestController
 public class BookController {
-	
 	
 	private final BookService bookService;
 	
@@ -62,5 +60,17 @@ public class BookController {
 	        e.printStackTrace();
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 내부 에러");
 	    }
+	}
+	
+	@Operation(summary="도서 정보 수정 API", description="선택한 도서에 대한 정보를 수정합니다.")
+	@PutMapping("/api/book")
+	public ResponseEntity<?> updateBookInfo(@RequestBody BookUpdateDto bookUpdateDto){
+		try {
+			log.info("bookUpdateDto, {}", bookUpdateDto.getBookId());
+			String updateResult = bookService.updateBookInfo(bookUpdateDto);
+			return ResponseEntity.ok().body(updateResult);
+		}catch(NullPointerException e) {
+			return ResponseEntity.ok().body(e.getMessage());
+		}
 	}
 }

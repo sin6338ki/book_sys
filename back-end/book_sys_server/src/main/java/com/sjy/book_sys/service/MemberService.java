@@ -1,5 +1,7 @@
 package com.sjy.book_sys.service;
 
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +10,7 @@ import com.sjy.book_sys.model.LoginDto;
 import com.sjy.book_sys.model.LoginResDto;
 import com.sjy.book_sys.model.Member;
 import com.sjy.book_sys.model.MemberDto;
+import com.sjy.book_sys.model.MemberResDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -73,7 +76,15 @@ public class MemberService {
 		}else {
 			throw new IllegalArgumentException("사용자가 존재하지 않습니다.");
 		}
-
+	}
+	
+	public List<MemberResDto> findAllMember(String keyword) {
+		List<MemberResDto> memberList = memberMapper.findAllMember("%"+keyword+"%");
+		if(memberList.size() > 0) {
+			return memberList;
+		}else {
+			throw new NullPointerException("회원 정보가 존재하지 않습니다.");
+		}
 	}
 	
 }

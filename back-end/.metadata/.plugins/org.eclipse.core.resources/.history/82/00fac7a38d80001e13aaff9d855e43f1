@@ -1,0 +1,31 @@
+package com.sjy.book_sys.model;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+/**
+ * 등록된 도서에 대한 대출 이력 ResponseDTO
+ * @author 신지영
+ * @since 2023.11.11
+ */
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+public class RentListResDto {
+	private String book_name;
+	private String rent_id;
+	private String member_id;
+	private String rent_dt;
+	private String return_dt;
+	private String expected_return_dt;
+	
+	public RentListResDto(String book_name, String rent_id, String member_id, String rent_dt, String return_dt, String expected_return_dt,
+			String overdue_dt) {
+		this.book_name = book_name;
+		this.rent_id = rent_id;
+		this.member_id = member_id;
+		this.rent_dt = rent_dt;
+		this.return_dt = return_dt;
+		this.expected_return_dt = expected_return_dt;
+	}	
+}

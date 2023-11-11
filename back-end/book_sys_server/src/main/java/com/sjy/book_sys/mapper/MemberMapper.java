@@ -1,5 +1,7 @@
 package com.sjy.book_sys.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -7,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import com.sjy.book_sys.model.LoginDto;
 import com.sjy.book_sys.model.Member;
 import com.sjy.book_sys.model.MemberDto;
+import com.sjy.book_sys.model.MemberResDto;
 
 /**
  * 회원 관련 Mapper
@@ -39,4 +42,12 @@ public interface MemberMapper {
 	 */
 	@Select("select * from member where member_id=#{memberId}")
 	public Member login(LoginDto member);
+	
+	/**
+	 * 회원 검색 조회 Mapper
+	 * @param keyword
+	 * @return List<MemberResDto>
+	 */
+	@Select("select member_name, member_id, member_rent_cnt from member where member_name like #{keyword}")
+	public List<MemberResDto> findAllMember(String keyword);
 }

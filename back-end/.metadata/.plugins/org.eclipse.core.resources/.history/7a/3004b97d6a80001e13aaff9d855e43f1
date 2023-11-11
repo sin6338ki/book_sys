@@ -1,0 +1,71 @@
+package com.sjy.book_sys.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import com.sjy.book_sys.model.RentDto;
+import com.sjy.book_sys.model.RentListResDto;
+/**
+ * 도서 대출, 반납 Mapper
+ * @author 신지영
+ * @since 2023.11.10
+ */
+@Mapper
+public interface RentMapper {
+
+	/**
+	 * 대여 신청 Mapper
+	 * @param rentDto
+	 */
+	@Insert("insert into rent (book_id, member_id) values (#{bookId}, #{memberId})")
+	public int insertRent(RentDto rentDto);
+	
+	/**
+	 * 대여 가능 여부 조회 Mapper
+	 * @param rentDto
+	 */
+	@Select("select expected_return_dt from rent where book_id=#{bookId} and member_id=#{memberId} and return_dt is null")
+	public String isSameBook(RentDto rentDto);
+	
+	/**
+	 * member 도서 대여 권수 추가
+	 * @param rentDto
+	 */
+	@Update("update member set member_rent_cnt = member_rent_cnt + 1 where member_id=#{memberId}")
+	public int updateMemberRentCnt(RentDto rentDto);
+	
+	/**
+	 * book 대출 권수 추가
+	 * @param rentDto
+	 */
+	@Update("update book set book_rental_cnt = book_rental_cnt + 1 where book_id=#{bookId}")
+	public int updateBookRentalCnt(RentDto rentDto);
+	
+	/**
+	 * member 도서 대여 가능 권수 조회
+	 * @param memberId
+	 */
+	@Select("select member_rent_cnt from member where member_id=#{memberId}")
+	public int findRentCnt(String memberId);
+	
+	/**
+	 * bookId에 대한 대출이력 조회
+	 * @param bookId
+	 * @return List<RentListResDto>
+	 */
+	@Select("select rent_id, member_id, rent_dt, return_dt, expected_return_dt, overdue_dt from rent where book_id=#{bookId}")
+	public List<RentListResDto> findRentListById(String bookId);
+	
+	@Update("update rent set return_dt = sysdate() where rent_id=#{rentId}")
+	public int returnBook(String rentId);
+	
+	@Update("update member set member_rent_cnt = member_rent_cnt -1 where member_id=#{memberId}")
+	public int decreaseMemberRentCnt(String memberId);
+	
+	@Update("update book set book_rental_cnt = book_rental_cnt - 1 where book_id=#{bookId}")
+	public int updateBookRentalCnt(String bookId);
+}

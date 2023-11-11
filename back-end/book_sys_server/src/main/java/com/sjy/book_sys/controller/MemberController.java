@@ -1,16 +1,20 @@
 package com.sjy.book_sys.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sjy.book_sys.model.LoginDto;
 import com.sjy.book_sys.model.LoginResDto;
 import com.sjy.book_sys.model.MemberDto;
+import com.sjy.book_sys.model.MemberResDto;
 import com.sjy.book_sys.service.MemberService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -64,6 +68,17 @@ public class MemberController {
 		}catch(IllegalArgumentException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+	
+	@Operation(summary="회원 조회 API", description="keyword로 검색한 결과를 조회한다.")
+	@GetMapping("/api/member")
+	public ResponseEntity<?> findAllMember(@RequestParam("keyword") String keyword){
+		try {
+			List<MemberResDto> memberList = memberService.findAllMember(keyword);
+			return ResponseEntity.ok().body(memberList);			
+		}catch(NullPointerException e) {
+			return ResponseEntity.ok().body(e.getMessage());
 		}
 	}
 }

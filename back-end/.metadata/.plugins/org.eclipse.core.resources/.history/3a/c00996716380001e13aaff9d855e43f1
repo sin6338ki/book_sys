@@ -1,0 +1,23 @@
+package com.sjy.book_sys.model;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+public class BookInfoDto {
+	private String bookId;
+	private String bookPubDt;
+	private String bookIntro;
+	private String writerIntro;
+	private String bookImg;
+	
+	public BookInfoDto(String bookId, String bookPubDt, String bookIntro, String writerIntro, String bookImg) {
+		this.bookId = bookId;
+		this.bookPubDt = bookPubDt;
+		this.bookIntro = bookIntro;
+		this.writerIntro = writerIntro;
+		this.bookImg = bookImg;
+	}
+}

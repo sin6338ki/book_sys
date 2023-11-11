@@ -1,0 +1,8 @@
+package com.sjy.book_sys.model;
+
+public class MemberResDto {
+
+	private String member_name;
+	private String member_id;
+	private int member_rent_cnt;
+}

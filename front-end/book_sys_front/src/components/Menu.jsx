@@ -36,7 +36,7 @@ const Menu = () => {
           navigate("/rent-list");
         }}
       >
-        대출 이력 조회
+        도서별 대출 이력 조회
       </button>
       <button
         className="mt-5 rounded-full text-2xl font-bold w-[680px] py-6 bg-gray-800 text-white"

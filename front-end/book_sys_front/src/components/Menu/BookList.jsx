@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
-import BookListIcon from "../../asset/book_list.png";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { saveBookInfo } from "../../rentBookInfo";
 
-const BookList = ({ availableBookCnt }) => {
-  const dispatch = useDispatch();
+const BookList = ({
+  availableBookCnt,
+  setSelectBook,
+  setUpdateData,
+  setIsUpdate,
+}) => {
   const navigate = useNavigate();
-  const loginId = useSelector((state) => state.saveLoginInfo.loginId);
-  const memberType = useSelector((state) => state.saveLoginInfo.memberType);
-  const bookId = useSelector((state) => state.rentBookInfo.bookId);
-
   //검색한 도서명
-  const [inputBookName, setBookName] = useState("");
+  const [searchBookName, setBookName] = useState("");
   //검색 결과 응답 데이터
   const [bookList, setBookList] = useState([]);
   // 도서별 '신청'/'해제' 상태를 나타내는 state
@@ -46,21 +44,22 @@ const BookList = ({ availableBookCnt }) => {
     searchBook("");
   }, []);
 
-  //Rent 콤포넌트 => 대출 신청 완료시 변경 데이터 적용
-  useEffect(() => {
-    searchBook("");
-  }, [bookId]);
-
   //대여 버튼 클릭
   const ckRent = (book) => {
     const newButtonStates = { ...buttonStates };
     if (!newButtonStates[book.book_id]) {
-      console.log("신청 버튼 클릭");
-      dispatch(saveBookInfo(book.book_id, book.book_name));
+      console.log("신청 버튼 클릭", book);
+      setSelectBook({
+        bookId: book.book_id,
+        bookName: book.book_name,
+      });
       newButtonStates[book.book_id] = true;
     } else {
       console.log("해제 버튼 클릭");
-      dispatch(saveBookInfo("", ""));
+      setSelectBook({
+        bookId: "",
+        bookName: "",
+      });
       newButtonStates[book.book_id] = false;
     }
     setButtonStates(newButtonStates);
@@ -73,7 +72,7 @@ const BookList = ({ availableBookCnt }) => {
         <input
           type="text"
           className="border ml-3 w-[300px] pl-2"
-          value={inputBookName}
+          value={searchBookName}
           onChange={(e) => {
             setBookName(e.target.value);
           }}
@@ -81,13 +80,13 @@ const BookList = ({ availableBookCnt }) => {
         <button
           className="border ml-3 px-3"
           onClick={() => {
-            searchBook(inputBookName);
+            searchBook(searchBookName);
           }}
         >
           검색
         </button>
       </div>
-      <table className="mx-7 text-center border w-[860px]">
+      <table className="mx-7 text-center border w-[920px]">
         <tr className="border">
           <th className="p-2">NO</th>
           <th className="p-2">도서명</th>
@@ -95,6 +94,8 @@ const BookList = ({ availableBookCnt }) => {
           <th className="p-2">출판사</th>
           <th className="p-2">대여 가능 권수</th>
           <th className="p-2">대출 신청</th>
+          <th className="p-2">대출 이력</th>
+          <th className="p-2">도서 수정</th>
         </tr>
         <tbody>
           {bookList.map((book, idx) => {
@@ -125,6 +126,33 @@ const BookList = ({ availableBookCnt }) => {
                       {buttonStates[book.book_id] ? "해제" : "신청"}
                     </button>
                   )}
+                </td>
+                <td>
+                  <button
+                    onClick={() => {
+                      navigate("/rent-list");
+                    }}
+                    className="bg-blue-100 px-6"
+                  >
+                    이동
+                  </button>
+                </td>
+                <td>
+                  <button
+                    onClick={() => {
+                      setUpdateData({
+                        bookName: book.book_name,
+                        bookWriter: book.book_writer,
+                        bookPublisher: book.book_publisher,
+                        bookCnt: book.book_cnt,
+                        bookId: book.book_id,
+                      });
+                      setIsUpdate(true);
+                    }}
+                    className="bg-gray-300 px-6"
+                  >
+                    선택
+                  </button>
                 </td>
               </tr>
             );

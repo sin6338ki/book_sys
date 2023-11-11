@@ -1,9 +1,13 @@
 package com.sjy.book_sys.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.sjy.book_sys.mapper.RentMapper;
 import com.sjy.book_sys.model.RentDto;
+import com.sjy.book_sys.model.RentListResDto;
+import com.sjy.book_sys.model.ReturnDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,11 +55,55 @@ public class RentService {
 	 * @return 가능시 가능한 대출 권수, 불가능시 0
 	 */
 	public int findRentCnt(String memberId) {
-		int possibleRentCnt = 5 - rentMapper.findRentCnt(memberId);
-		if(possibleRentCnt > 0) {
-			return possibleRentCnt;
+		try {
+			int possibleRentCnt = 5 - rentMapper.findRentCnt(memberId);
+			if(possibleRentCnt > 0) {
+				return possibleRentCnt;
+			}else {
+				return 0;
+			}
+		}catch(Exception e) {
+			return -1;
+		}
+	}
+	
+	/**
+	 * 대출 이력 조회 service
+	 * @param bookId
+	 * @return 성공시 List<RentListResDto> 실패시 NullPointerException
+	 */
+	public List<RentListResDto> findRentListById(String bookName){
+		List<RentListResDto> rentList = null;
+		//bookId "ALL"일 경우 전체 조회
+		if(bookName.equals("ALL")) {
+			return rentMapper.findAllRentList();
+		}else {			
+			rentList = rentMapper.findRentListById("%" + bookName + "%");
+			if(rentList.size() > 0) {
+				return rentList;
+			}else {
+				throw new NullPointerException("대출이력이 없습니다");
+			}
+		}
+	}
+	
+	/**
+	 * 도서 반납 service
+	 * @param returnDto
+	 * @return 성공시 return success, 실해시 return fail
+	 */
+	public String returnBook(ReturnDto returnDto) {
+		//반납 처리
+		int resultOfReturn = rentMapper.returnBook(returnDto.getRentId());
+		//Book 테이블 대출 권수 감소
+		int resultOfDecBookRentalCnt = rentMapper.decreaseBookRentalCnt(returnDto.getBookId());
+		//Member 테이블 대출 권수 추가
+		int resultOfDecMemberRentCnt = rentMapper.decreaseMemberRentCnt(returnDto.getMemberId());
+		//모두 성공시 success
+		if(resultOfReturn > 0 && resultOfDecBookRentalCnt > 0 && resultOfDecMemberRentCnt > 0){
+			return "return success";
 		}else {
-			return 0;
+			return "return fail";
 		}
 	}
 
@@ -74,30 +122,4 @@ public class RentService {
 		}
 	}
 	
-	/**
-	 * 대여 신청 service
-	 * @param rentDto
-	 * @return 성공시 1
-	 */
-	public int insertRent(RentDto rentDto) {
-		return rentMapper.insertRent(rentDto);
-	}
-	
-	/**
-	 * member 대여 권수 추가 service
-	 * @param rentDto
-	 * @return 성공시 1
-	 */
-	public int updateMemberRentCnt(RentDto rentDto) {
-		return rentMapper.updateMemberRentCnt(rentDto);
-	}
-	
-	/**
-	 * book 대여 권수 추가 service
-	 * @param rentDto
-	 * @return 성공시 1
-	 */
-	public int updateBookRentalCnt(RentDto rentDto) {
-		return rentMapper.updateBookRentalCnt(rentDto);
-	}
 }

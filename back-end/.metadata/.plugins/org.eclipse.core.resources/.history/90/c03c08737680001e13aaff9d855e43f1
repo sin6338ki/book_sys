@@ -1,0 +1,69 @@
+package com.sjy.book_sys.controller;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.sjy.book_sys.model.LoginDto;
+import com.sjy.book_sys.model.LoginResDto;
+import com.sjy.book_sys.model.MemberDto;
+import com.sjy.book_sys.service.MemberService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * 회원 관련 Controller
+ * 
+ * @author 신지영
+ * @since 2023.11.08
+ */
+@Tag(name = "회원 Controller", description = "회원가입, 중복 아이디 검사, 로그인")
+@Slf4j
+@RequiredArgsConstructor
+@RestController
+public class MemberController {
+
+	private final MemberService memberService;
+	
+	@Operation(summary="회원가입 API", description="회원가입을 위해 회원정보를 DB에 저장한다.")
+	@PostMapping("/api/member")
+	public ResponseEntity<String> signup(@RequestBody MemberDto member){
+		log.info("memberDto : {}", member.getMemberId());
+		if(memberService.signup(member).equals("success")) {
+			return ResponseEntity.status(HttpStatus.CREATED).body("회원가입이 완료되었습니다.");
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입에 실패했습니다.");
+		}
+	}
+	
+	@Operation(summary="중복 아이디 검사 API", description="회원가입 도중 중복 아이디를 검사한다.")
+	@GetMapping("/api/member-id/{memberId}")
+	public ResponseEntity<String> checkId(@PathVariable String memberId){
+		boolean isSameId = memberService.checkId(memberId);
+		if(!isSameId) {
+			return ResponseEntity.ok(memberId);
+		}else {
+			return ResponseEntity.ok("중복 아이디가 존재합니다");
+		}
+	}
+	
+	@Operation(summary="로그인 API", description="로그인 시도시 회원정보를 조회한다.")
+	@PostMapping("/api/login")
+	public ResponseEntity<?> login(@RequestBody LoginDto loginDto){
+		try {
+			log.info("login pw : {}", loginDto.getMemberPw());
+			LoginResDto loginMember = memberService.login(loginDto);
+			return ResponseEntity.ok(loginMember);	
+		}catch(IllegalArgumentException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+}

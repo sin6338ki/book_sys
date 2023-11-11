@@ -1,0 +1,46 @@
+package com.sjy.book_sys.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import com.sjy.book_sys.model.BookInfoDto;
+import com.sjy.book_sys.model.BookInfoResDto;
+import com.sjy.book_sys.model.BookRegDto;
+import com.sjy.book_sys.model.BookResDto;
+
+
+@Mapper
+public interface BookMapper {
+
+	/**
+	 * 책 등록 mapper
+	 * @param bookRegDto
+	 * @return
+	 */
+	@Insert("insert into book (book_name, book_writer, book_publisher, book_cnt) values (#{bookName}, #{bookWriter}, #{bookPublisher}, #{bookCnt})")
+	public int regBook(BookRegDto bookRegDto);
+	
+
+	/**
+	 * 도서명 검색 mapper
+	 * @param bookName
+	 * @return BookResDto
+	 */
+	@Select("select book_id, book_name, book_writer, book_publisher, book_cnt, book_rental_cnt from book where book_name like #{keyword}")
+	public List<BookResDto> searchBook(String keyword);
+	
+	/**
+	 * 도서 상세 정보 조회 mapper
+	 * @param bookId
+	 * @return BookInfoResDto
+	 */
+	@Select("select b.book_id, b.book_name, b.book_writer, b.book_publisher, bi.book_pub_dt, bi.book_intro, bi.book_writer_intro, bi.book_img from book_info bi inner join book b on b.book_id = bi.book_id where bi.book_id = #{bookId}")
+	public BookInfoResDto findBookInfoById(String bookId);
+	
+	@Update("")
+	public int updateBookInfo(BookRegDto bookRegDto);
+	
+}

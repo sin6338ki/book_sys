@@ -1,15 +1,21 @@
 package com.sjy.book_sys.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sjy.book_sys.model.RentDto;
+import com.sjy.book_sys.model.RentListResDto;
+import com.sjy.book_sys.model.ReturnDto;
 import com.sjy.book_sys.service.MemberService;
 import com.sjy.book_sys.service.RentService;
 
@@ -47,10 +53,28 @@ public class RentController {
 		int rentPossibleCnt = rentService.findRentCnt(memberId);
 		if(rentPossibleCnt > 0) {
 			return ResponseEntity.ok().body(rentPossibleCnt);			
+		}else if(rentPossibleCnt == -1){
+			return ResponseEntity.ok().body("아이디가 존재하지 않습니다.");
 		}else {
 			return ResponseEntity.ok().body("더 이상 도서 대여가 불가능합니다");
 		}
 	}
 	
-
+	@Operation(summary="해당 도서 대출 이력 조회 API", description="bookId를 통해 도서의 대출 이력을 조회합니다.")
+	@GetMapping("/api/rent")
+	public ResponseEntity<?> findRentListById(@RequestParam("bookName") String bookName){
+		try {
+			List<RentListResDto> rentList = rentService.findRentListById(bookName);
+			return ResponseEntity.ok().body(rentList);
+		}catch(NullPointerException e) {
+			return ResponseEntity.ok().body(e.getMessage());
+		}
+	}
+	
+	@Operation(summary="도서 반납 API", description="도서 반납을 진행합니다.")
+	@PatchMapping("/api/return")
+	public ResponseEntity<?> returnBook(@RequestBody ReturnDto returnDto){
+		String returnResult = rentService.returnBook(returnDto);
+		return ResponseEntity.ok().body(returnResult);
+	}
 }

@@ -5,11 +5,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { saveBookInfo } from "../../rentBookInfo";
 
-const BookList = () => {
+const BookList = ({ availableBookCnt }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loginId = useSelector((state) => state.saveLoginInfo.loginId);
   const memberType = useSelector((state) => state.saveLoginInfo.memberType);
+  const bookId = useSelector((state) => state.rentBookInfo.bookId);
 
   //검색한 도서명
   const [inputBookName, setBookName] = useState("");
@@ -44,6 +45,11 @@ const BookList = () => {
   useEffect(() => {
     searchBook("");
   }, []);
+
+  //Rent 콤포넌트 => 대출 신청 완료시 변경 데이터 적용
+  useEffect(() => {
+    searchBook("");
+  }, [bookId]);
 
   //대여 버튼 클릭
   const ckRent = (book) => {
@@ -104,7 +110,8 @@ const BookList = () => {
                   {book.book_cnt}
                 </td>
                 <td className="p-2">
-                  {book.book_cnt - book.book_rental_cnt === 0 ? (
+                  {book.book_cnt - book.book_rental_cnt === 0 ||
+                  availableBookCnt === 0 ? (
                     <button disabled="false" className="bg-gray-100 px-3">
                       신청불가
                     </button>

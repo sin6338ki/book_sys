@@ -1,6 +1,10 @@
 package com.sjy.book_sys.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,8 +30,27 @@ public class RentController {
 	@PostMapping("/api/rent")
 	public ResponseEntity<?> applyRent(@RequestBody RentDto rentDto){
 		log.info("rentDTO : {}", rentDto.getBookId());
-		rentService.applyRent(rentDto);
-		return ResponseEntity.ok().body("");
+		String rentResult = rentService.applyRent(rentDto);
+		
+		if(rentResult.equals("rent success")) {
+			log.info("rent result : {}", rentResult);
+			return ResponseEntity.status(HttpStatus.CREATED).body(rentResult);
+		}else {
+			log.info("rent result : {}", rentResult);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(rentResult); 
+		}
 	}
+	
+	@Operation(summary="member 대출 가능 도서 권수 조회 API", description="회원 ID를 통해 대여 가능한 도서 권수를 출력합니다.")
+	@GetMapping("/api/rent/{memberId}")
+	public ResponseEntity<?> findRentCnt(@PathVariable String memberId){
+		int rentPossibleCnt = rentService.findRentCnt(memberId);
+		if(rentPossibleCnt > 0) {
+			return ResponseEntity.ok().body(rentPossibleCnt);			
+		}else {
+			return ResponseEntity.ok().body("더 이상 도서 대여가 불가능합니다");
+		}
+	}
+	
 
 }

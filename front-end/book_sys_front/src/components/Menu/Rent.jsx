@@ -1,19 +1,68 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BookListIcon from "../../asset/book_list.png";
 import UserList from "../../asset/user_list.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import BookList from "./BookList";
+import { saveBookInfo } from "../../rentBookInfo";
 
 const Rent = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const loginId = useSelector((state) => state.saveLoginInfo.loginId);
   const memberType = useSelector((state) => state.saveLoginInfo.memberType);
   const bookName = useSelector((state) => state.rentBookInfo.bookName);
+  const bookId = useSelector((state) => state.rentBookInfo.bookId);
+  const [inputBookName, setInputBookName] = useState(bookName);
+  const [inputMemberId, setInputMemberId] = useState(loginId);
+  const [availableBookCnt, setAvailableBookCnt] = useState();
 
   //대출 신청 버튼 클릭
-  const applyRent = () => {};
+  const applyRent = () => {
+    console.log("inputMemberId : ", inputMemberId);
+    const request = {
+      bookId: bookId,
+      memberId: inputMemberId,
+    };
+
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/rent`, request)
+      .then((res) => {
+        console.log("applyRent response : ", res);
+        if (res.data === "rent success") {
+          alert("도서 대여 신청이 완료되었습니다!");
+          setInputBookName("");
+          dispatch(saveBookInfo("", ""));
+        }
+      })
+      .catch((e) => {
+        console.log("applyRent error : ", e);
+      });
+  };
+
+  useEffect(() => {
+    setInputBookName(bookName);
+  }, [bookName]);
+
+  useEffect(() => {
+    loginId && findAvailableBookCnt();
+  }, [inputBookName]);
+
+  //도서 대출 가능 권수 조회 메서드
+  const findAvailableBookCnt = () => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/rent/${loginId}`)
+      .then((res) => {
+        console.log("findAvailableBookCnt response : ", res);
+        res.data === "더 이상 도서 대여가 불가능합니다"
+          ? setAvailableBookCnt(0)
+          : setAvailableBookCnt(res.data);
+      })
+      .catch((e) => {
+        console.log("findAvailableBookCnt error : ", e);
+      });
+  };
 
   return (
     <div>
@@ -51,15 +100,26 @@ const Rent = () => {
             <input
               className="bg-blue-100 w-[520px] p-1 mt-1"
               type="text"
-              value={loginId}
+              value={inputMemberId}
+              onChange={(e) => {
+                setInputMemberId(e.target.value);
+              }}
+              disabled="true"
             />
+            <p className="mt-3">가능한 대출 권수 : {availableBookCnt}</p>
+            {availableBookCnt === 0 && (
+              <p className="text-xs text-red-500 mt-1">
+                현재 대여중인 책을 반납 한 후 이용하실 수 있어요
+              </p>
+            )}
           </div>
           <div className="my-1 border border-gray-500 rounded-md p-2 w-[540px]">
             <p className="text-xs">도서명</p>
             <input
               className="bg-blue-100 w-[520px] p-1 mt-1"
               type="text"
-              value={bookName}
+              value={inputBookName}
+              disabled="true"
             />
           </div>
           <button
@@ -71,7 +131,7 @@ const Rent = () => {
             대출 신청
           </button>
         </div>
-        <BookList />
+        <BookList availableBookCnt={availableBookCnt} />
       </div>
     </div>
   );

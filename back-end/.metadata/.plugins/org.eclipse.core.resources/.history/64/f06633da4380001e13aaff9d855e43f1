@@ -1,0 +1,45 @@
+package com.sjy.book_sys.mapper;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import com.sjy.book_sys.model.RentDto;
+/**
+ * 도서 대출, 반납 Mapper
+ * @author 신지영
+ * @since 2023.11.10
+ */
+@Mapper
+public interface RentMapper {
+
+	/**
+	 * 대여 신청 Mapper
+	 * @param rentDto
+	 */
+	@Insert("insert into rent (book_id, member_id) values (#{bookId}, #{memberId})")
+	public int insertRent(RentDto rentDto);
+	
+	/**
+	 * 대여 가능 여부 조회 Mapper
+	 * @param rentDto
+	 */
+	@Select("select expected_return_dt from rent where book_id=#{bookId} and member_id=#{memberId} and return_dt is null")
+	public String isSameBook(RentDto rentDto);
+	
+	/**
+	 * member 도서 대여 권수 추가
+	 * @param rentDto
+	 */
+	@Update("update member set member_rent_cnt = member_rent_cnt + 1 where member_id=#{memberId}")
+	public int updateMemberRentCnt(RentDto rentDto);
+	
+	/**
+	 * book 대출 권수 추가
+	 * @param rentDto
+	 * @return
+	 */
+	@Update("update book set book_rental_cnt = book_rental_cnt + 1 where book_id=#{bookId}")
+	public int updateBookRentalCnt(RentDto rentDto);
+}

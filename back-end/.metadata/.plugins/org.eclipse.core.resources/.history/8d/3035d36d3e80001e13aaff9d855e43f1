@@ -1,0 +1,48 @@
+package com.sjy.book_sys.service;
+
+import org.springframework.stereotype.Service;
+
+import com.sjy.book_sys.mapper.RentMapper;
+import com.sjy.book_sys.model.RentDto;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class RentService {
+	
+	private final RentMapper rentMapper;
+	
+	public String applyRent(RentDto rentDto) {
+		String isPossibleRent = isSameBook(rentDto);
+		if(isPossibleRent.equals("possible rent")) {
+			int resultOfRent = rentMapper.applyRent(rentDto);
+			if(resultOfRent > 0){
+				return "success rent";			
+			}else {
+				return "fail rent";
+			}
+		}else {
+			return isPossibleRent;
+		}
+		
+
+	}
+
+	/**
+	 * 책 대여 가능 여부 조회 service
+	 * @param rentDto
+	 * @return 가능시 "책 대여가 가능합니다" 불가능시 예상 반납일
+	 */
+	public String isSameBook(RentDto rentDto) {
+		try {
+			log.info("memberId, bookId : {}, {}", rentDto.getMemberId(), rentDto.getBookId());
+			String resultOfIsSameBook = rentMapper.isSameBook(rentDto);
+			return resultOfIsSameBook;
+		}catch(NullPointerException e) {
+			return "possible rent";
+		}
+	}
+}

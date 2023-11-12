@@ -2419,3 +2419,6 @@ java.lang.InterruptedException
 
 !ENTRY org.springframework.tooling.boot.ls 1 0 2023-11-12 19:13:24.988
 !MESSAGE Classpath changed for project: book_sys_server
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2023-11-12 20:27:12.429
+!MESSAGE Classpath changed for project: book_sys_server

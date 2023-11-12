@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UserList from "../../asset/user_list.png";
 import Books from "../../asset/books.png";
 import Home from "../../asset/home.png";
-import BookList from "./BookList";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -15,30 +13,15 @@ const Registration = () => {
   const [inputWriter, setInputWriter] = useState("");
   const [inputPublisher, setInputPublisher] = useState("");
   const [inputBookCnt, setInputBookCnt] = useState(1);
-
-  //update 정보
-  const [updateData, setUpdateData] = useState({
-    bookName: "",
-    bookWriter: "",
-    bookPublisher: "",
-    bookCnt: 0,
-    bookId: "",
-  });
+  const [inputBookId, setInputBookId] = useState("");
+  const [bookList, setBookList] = useState([]);
 
   //수정, 등록 판단
   const [isUpdate, setIsUpdate] = useState(false);
 
-  //선택시 화면 렌더링
-  useEffect(() => {
-    setInputBookName(updateData.bookName);
-    setInputWriter(updateData.bookWriter);
-    setInputPublisher(updateData.bookPublisher);
-    setInputBookCnt(updateData.bookCnt);
-  }, [updateData]);
-
   //도서 등록 메서드
   const regBook = () => {
-    if (inputBookName != "" && inputWriter != "" && inputPublisher != "") {
+    if (inputBookName !== "" && inputWriter !== "" && inputPublisher !== "") {
       const data = {
         bookName: inputBookName,
         bookWriter: inputWriter,
@@ -50,6 +33,7 @@ const Registration = () => {
         .then((res) => {
           console.log("regBook response : ", res);
           if (res.data === "success book registration") {
+            alert("등록이 완료되었습니다.");
             //입력창 초기화
             setInputBookName("");
             setInputWriter("");
@@ -72,14 +56,15 @@ const Registration = () => {
       bookWriter: inputWriter,
       bookPublisher: inputPublisher,
       bookCnt: inputBookCnt,
-      bookId: updateData.bookId,
+      bookId: inputBookId,
     };
-    if (inputBookName != "" && inputWriter != "" && inputPublisher != "") {
+    if (inputBookName !== "" && inputWriter !== "" && inputPublisher !== "") {
       axios
         .put(`${process.env.REACT_APP_API_URL}/book`, data)
         .then((res) => {
           console.log("updateBook response : ", res);
           if (res.data === "update success") {
+            alert("수정이 완료되었습니다.");
             //입력창 초기화
             setInputBookName("");
             setInputWriter("");
@@ -95,6 +80,31 @@ const Registration = () => {
     }
   };
 
+  //도서 검색 메서드
+  const searchBook = () => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/book`, {
+        params: { keyword: inputBookName },
+      })
+      .then((res) => {
+        console.log("searchBook result : ", res);
+        if (res.data.length > 0) {
+          setBookList(res.data);
+          setIsUpdate(true);
+          setInputWriter(res.data[0].book_writer);
+          setInputPublisher(res.data[0].book_publisher);
+          setInputBookCnt(res.data[0].book_cnt);
+          setInputBookId(res.data[0].book_id);
+        } else {
+          alert("검색 결과가 없습니다");
+        }
+      })
+      .catch((e) => {
+        console.log("searchBook error : ", e);
+        alert("검색 결과가 없습니다");
+      });
+  };
+
   return (
     <div className="flex flex-col h-screen w-auto">
       <div className="flex flex-row justify-between items-center p-7 bg-yellow-200">
@@ -108,7 +118,7 @@ const Registration = () => {
                   navigate("/book-sys");
                 }}
               >
-                <img src={UserList}></img>
+                <img alt="rent-icon" src={UserList}></img>
                 <p className="font-bold">도서 대출</p>
               </button>
               <button
@@ -117,7 +127,7 @@ const Registration = () => {
                   navigate("/return");
                 }}
               >
-                <img src={Books}></img>
+                <img alt="return-icon" src={Books}></img>
                 <p className="font-bold">도서 반납</p>
               </button>
               <button
@@ -126,7 +136,7 @@ const Registration = () => {
                   navigate("/");
                 }}
               >
-                <img src={Home}></img>
+                <img alt="home-icon" src={Home}></img>
                 <p className="font-bold">메인메뉴</p>
               </button>
             </>
@@ -148,6 +158,14 @@ const Registration = () => {
                 setInputBookName(e.target.value);
               }}
             />
+            <button
+              onClick={() => {
+                searchBook();
+              }}
+              className="mt-2 bg-gray-200 w-[520px] rounded-md py-1"
+            >
+              검색
+            </button>
           </div>
 
           <div className="mt-5 border border-gray-500 rounded-md p-2 w-[540px] ml-14">
@@ -206,7 +224,6 @@ const Registration = () => {
             </button>
           )}
         </div>
-        <BookList setUpdateData={setUpdateData} setIsUpdate={setIsUpdate} />
       </div>
     </div>
   );

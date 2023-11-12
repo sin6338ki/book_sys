@@ -8,6 +8,7 @@ import Rent from "./components/Menu/Rent";
 import Return from "./components/Menu/Return";
 import MemberList from "./components/member/MemberList";
 import BookList from "./components/Menu/BookList";
+import BookRentListById from "./components/bookInfo/BookRentListById";
 
 /** 리덕스 설정 */
 import { createStore, applyMiddleware, compose } from "redux";
@@ -42,6 +43,7 @@ function App() {
           <Route path="/book-list" element={<BookList />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/member-list" element={<MemberList />} />
+          <Route path="/rent-list/:bookName" element={<BookRentListById />} />
         </Routes>
       </div>
     </Provider>

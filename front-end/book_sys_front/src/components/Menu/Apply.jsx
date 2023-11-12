@@ -33,11 +33,7 @@ const Apply = () => {
     if (memberType !== 1) {
       setInputMemberId(loginId);
     }
-  }, []);
-
-  useEffect(() => {
-    console.log("inputBookName : ", inputBookName);
-  }, [inputBookName]);
+  }, [loginId, memberType]);
 
   useEffect(() => {
     console.log("selectBook : ", selectBook.bookName);
@@ -46,7 +42,7 @@ const Apply = () => {
 
   useEffect(() => {
     loginId && findAvailableBookCnt();
-  }, [inputBookName, inputMemberId]);
+  }, [inputBookName, inputMemberId, loginId]);
 
   //도서 대출 가능 권수 조회 메서드
   const findAvailableBookCnt = () => {
@@ -72,14 +68,14 @@ const Apply = () => {
     setShowBookList(false);
   };
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-auto">
       <div className="flex flex-row justify-between items-center p-7 bg-yellow-200">
         <h4 className="text-4xl font-extrabold">도서 대출/반납 신청</h4>
         <div>
           {memberType === 1 && (
             <>
               <button
-                className="w-16 h-16 mr-10"
+                className="w-24 h-16 mr-10"
                 onClick={() => {
                   navigate("/registration");
                 }}
@@ -88,7 +84,8 @@ const Apply = () => {
                 <p className="font-bold">도서 등록/수정</p>
               </button>
               <button
-                className="w-16 h-16 mr-10"
+                alter="member-list-icon"
+                className="w-24 h-16 mr-10"
                 onClick={() => {
                   showMemberList();
                 }}
@@ -97,21 +94,22 @@ const Apply = () => {
                 <p className="font-bold">회원 목록</p>
               </button>
               <button
-                className="w-16 h-16 mr-10"
+                alt="book-list-icon"
+                className="w-24 h-16 mr-10"
                 onClick={() => {
                   setShowBookList(true);
                 }}
               >
-                <img src={Books}></img>
+                <img src={Books} alt="book-list-icon"></img>
                 <p className="font-bold">도서 목록</p>
               </button>
               <button
-                className="w-16 h-16"
+                className="w-24 h-16"
                 onClick={() => {
                   navigate("/");
                 }}
               >
-                <img src={Home}></img>
+                <img alt="home-icon" src={Home}></img>
                 <p className="font-bold">메인메뉴</p>
               </button>
             </>

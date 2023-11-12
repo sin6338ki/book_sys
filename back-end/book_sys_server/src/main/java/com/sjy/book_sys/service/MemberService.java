@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.sjy.book_sys.exception.NoPermissionException;
 import com.sjy.book_sys.mapper.MemberMapper;
 import com.sjy.book_sys.model.LoginDto;
 import com.sjy.book_sys.model.LoginResDto;
@@ -65,19 +66,26 @@ public class MemberService {
 	 */
 	public LoginResDto login(LoginDto member) {
 		Member inqueryResult = memberMapper.login(member);
-		if(inqueryResult != null) {
-			if(passwordEncoder.matches(member.getMemberPw(), inqueryResult.getMemberPw())) {			
-				log.info("비밀번호 일치");
+		if(inqueryResult != null && passwordEncoder.matches(member.getMemberPw(), inqueryResult.getMemberPw())) {
+			log.info("비밀번호 일치");
+			if(inqueryResult.getMemberType() == 1) {					
 				return LoginResDto.builder().memberId(inqueryResult.getMemberId()).memberType(inqueryResult.getMemberType()).build();
-			}else {
-				log.info("비밀번호 불일치");
-				throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-			}			
+			}else{
+				throw new NoPermissionException();
+			}
+		}else if(inqueryResult != null) {
+			log.info("비밀번호 불일치");
+			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
 		}else {
 			throw new IllegalArgumentException("사용자가 존재하지 않습니다.");
 		}
 	}
 	
+	/**
+	 * 회원 검색 메서드
+	 * @param keyword
+	 * @return 회원 검색 결과 List<MemberResDto>
+	 */
 	public List<MemberResDto> findAllMember(String keyword) {
 		List<MemberResDto> memberList = memberMapper.findAllMember("%"+keyword+"%");
 		if(memberList.size() > 0) {

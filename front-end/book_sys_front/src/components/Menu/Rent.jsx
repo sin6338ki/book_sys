@@ -51,7 +51,7 @@ const Rent = ({
   };
 
   return (
-    <div>
+    <div className="w-auto">
       <div className="flex flex-row justify-around">
         <div className="m-10 flex flex-col items-center">
           <p className="m-10 font-bold">

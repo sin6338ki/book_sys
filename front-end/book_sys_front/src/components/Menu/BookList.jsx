@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -14,6 +13,11 @@ const BookList = ({
   const [searchBookName, setBookName] = useState("");
   //검색 결과 응답 데이터
   const [bookList, setBookList] = useState([]);
+
+  //도서 전체 목록
+  useEffect(() => {
+    searchBook("");
+  }, []);
 
   //도서 검색 메서드
   const searchBook = (keyword) => {
@@ -37,11 +41,6 @@ const BookList = ({
       });
   };
 
-  //도서 전체 목록
-  useEffect(() => {
-    searchBook("");
-  }, []);
-
   //대여 버튼 클릭
   const ckRent = (book) => {
     const newButtonStates = { ...buttonStates };
@@ -64,7 +63,7 @@ const BookList = ({
   };
 
   return (
-    <div className="mt-10">
+    <div className="mt-10 w-auto">
       <div className="m-7 flex flex-row">
         <p>도서명 검색</p>
         <input
@@ -120,14 +119,16 @@ const BookList = ({
                       }}
                       className="bg-yellow-100 px-6"
                     >
-                      {buttonStates[book.book_id] ? "해제" : "신청"}
+                      {buttonStates && buttonStates[book.book_id]
+                        ? "해제"
+                        : "신청"}
                     </button>
                   )}
                 </td>
                 <td>
                   <button
                     onClick={() => {
-                      navigate("/rent-list");
+                      navigate(`/rent-list/${book.book_name}`);
                     }}
                     className="bg-blue-100 px-6"
                   >

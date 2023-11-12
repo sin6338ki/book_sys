@@ -40,7 +40,7 @@ const BookRentList = ({
       })
       .then((res) => {
         console.log("findAllRentList response :", res);
-        if (res.data != "대출이력이 없습니다") {
+        if (res.data !== "대출이력이 없습니다") {
           setAllList(res.data);
         } else {
           findAllRentList();
@@ -54,10 +54,10 @@ const BookRentList = ({
   //검색 화면 렌더링
   useEffect(() => {
     searchRentList();
-  }, [searchBookName]);
+  }, [searchBookName, allList]);
 
   return (
-    <div className="mt-10">
+    <div className="mt-10 w-auto">
       <h4 className="ml-7 text-2xl font-extrabold">도서 대출 리스트</h4>
       <div className="m-7 flex flex-row">
         <p>도서명 검색</p>
@@ -95,7 +95,7 @@ const BookRentList = ({
                     <button
                       className="bg-blue-100 px-3"
                       onClick={() => {
-                        setRentId(rent.book_id);
+                        setRentId(rent.rent_id);
                         setSelectMemberId(rent.member_id);
                         setInputBookName(rent.book_name);
                         setBookId(rent.book_id);
@@ -107,7 +107,7 @@ const BookRentList = ({
                     <button
                       className="bg-gray-100 px-3"
                       onClick={() => {
-                        setRentId(rent.book_id);
+                        setRentId(rent.rent_id);
                         setSelectMemberId(rent.member_id);
                         setInputBookName(rent.book_name);
                         setBookId(rent.book_id);

@@ -29,7 +29,7 @@ public class RentService {
 
 		//책 대여 가능 여부 확인
 		String isPossibleRent = isSameBook(rentDto);
-		if(isPossibleRent.equals("possible rent")) {
+		if(isPossibleRent == null) {
 			//Rent 테이블 insert
 			int resultOfRent = rentMapper.insertRent(rentDto);
 			//Book 테이블 대출 권수 추가
@@ -93,10 +93,13 @@ public class RentService {
 	public String returnBook(ReturnDto returnDto) {
 		//반납 처리
 		int resultOfReturn = rentMapper.returnBook(returnDto.getRentId());
+		log.info("resultOfReturn: {}", resultOfReturn);
 		//Book 테이블 대출 권수 감소
 		int resultOfDecBookRentalCnt = rentMapper.decreaseBookRentalCnt(returnDto.getBookId());
+		log.info("resultOfDecBookRentalCnt: {}", resultOfDecBookRentalCnt);
 		//Member 테이블 대출 권수 추가
 		int resultOfDecMemberRentCnt = rentMapper.decreaseMemberRentCnt(returnDto.getMemberId());
+		log.info("resultOfDecMemberRentCnt: {}", resultOfDecMemberRentCnt);
 		//모두 성공시 success
 		if(resultOfReturn > 0 && resultOfDecBookRentalCnt > 0 && resultOfDecMemberRentCnt > 0){
 			return "return success";

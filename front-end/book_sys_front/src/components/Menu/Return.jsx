@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -8,7 +8,6 @@ import RentList from "../bookInfo/BookRentList";
 const Return = () => {
   const navigate = useNavigate();
   //로그인 정보
-  const loginId = useSelector((state) => state.saveLoginInfo.loginId);
   const memberType = useSelector((state) => state.saveLoginInfo.memberType);
   //rentId
   const [rentId, setRentId] = useState("");
@@ -19,18 +18,6 @@ const Return = () => {
   //bookId
   const [bookId, setBookId] = useState("");
 
-  //선택한 책 정보
-  const [selectBook, setSelectBook] = useState({
-    bookId: "",
-    bookName: "",
-  });
-
-  //화면 렌더링
-  useEffect(() => {
-    console.log("selectBook : ", selectBook.bookName);
-    setInputBookName(selectBook.bookName);
-  }, [selectBook]);
-
   //반납 신청 버튼 클릭
   const applyReturn = () => {
     const request = {
@@ -40,31 +27,29 @@ const Return = () => {
     };
 
     axios
-      .post(`${process.env.REACT_APP_API_URL}/rent`, request)
+      .put(`${process.env.REACT_APP_API_URL}/return`, request)
       .then((res) => {
         console.log("applyRent response : ", res);
-        if (res.data === "rent success") {
-          console.log("memberType : ", memberType);
-          console.log("memberId : ", loginId);
-          alert("도서 대출 신청이 완료되었습니다!");
+        if (res.data === "return success") {
+          alert("도서 반납이 완료되었습니다!");
           setInputBookName("");
           setSelectMemberId("");
         }
       })
       .catch((e) => {
-        console.log("applyRent error : ", e);
+        console.log("applyReturn error : ", e);
       });
   };
 
   return (
-    <div>
+    <div className="w-auto">
       <div className="flex flex-row justify-between items-center p-7 bg-yellow-200">
         <h4 className="text-4xl font-extrabold">반납 신청</h4>
         <div>
           {memberType === 1 && (
             <div>
               <button
-                className="w-16 h-16"
+                className="w-24 h-16"
                 onClick={() => {
                   navigate("/");
                 }}

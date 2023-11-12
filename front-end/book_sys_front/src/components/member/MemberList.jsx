@@ -44,27 +44,18 @@ const MemberList = ({ setInputMemberId }) => {
   };
 
   return (
-    <div className="mt-10">
+    <div className="mt-10 w-auto">
       <div className="m-7 flex flex-row">
         <p>회원명 검색</p>
         <input
           type="text"
           className="border ml-3 w-[300px] pl-2"
-          value={inputMemberName}
           onChange={(e) => {
-            setMemberName(e.target.value);
+            searchMemberName(e.target.value);
           }}
         ></input>
-        <button
-          className="border ml-3 px-3"
-          onClick={() => {
-            searchMemberName(inputMemberName);
-          }}
-        >
-          검색
-        </button>
       </div>
-      {noneText != "" ? (
+      {noneText !== "" ? (
         <p className="text-center">{noneText}</p>
       ) : (
         <table className="mx-7 text-center border w-[860px]">
@@ -74,7 +65,6 @@ const MemberList = ({ setInputMemberId }) => {
             <th className="p-2">아이디</th>
             <th className="p-2">대여 가능 권수</th>
             <th className="p-2">대출 신청</th>
-            <th className="p-2">반납 신청</th>
           </tr>
 
           {memberList.map((member, idx) => {

@@ -28,6 +28,7 @@ public interface RentMapper {
 	/**
 	 * 대여 가능 여부 조회 Mapper
 	 * @param rentDto
+	 * @return 대여 가능시 null, 불가능시 expected_return_dt 
 	 */
 	@Select("select expected_return_dt from rent where book_id=#{bookId} and member_id=#{memberId} and return_dt is null")
 	public String isSameBook(RentDto rentDto);
@@ -81,7 +82,7 @@ public interface RentMapper {
 	 * @param memberId
 	 * @return 성공시 1
 	 */
-	@Update("update member set member_rent_cnt = member_rent_cnt -1 where member_id=#{memberId}")
+	@Update("update member set member_rent_cnt = member_rent_cnt-1 where member_id=#{memberId}")
 	public int decreaseMemberRentCnt(String memberId);
 	
 	/**
@@ -89,6 +90,6 @@ public interface RentMapper {
 	 * @param bookId
 	 * @return 성공시 1
 	 */
-	@Update("update book set book_rental_cnt = book_rental_cnt - 1 where book_id=#{bookId}")
+	@Update("update book set book_rental_cnt = book_rental_cnt-1 where book_id=#{bookId}")
 	public int decreaseBookRentalCnt(String bookId);
 }

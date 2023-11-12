@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sjy.book_sys.exception.NoPermissionException;
 import com.sjy.book_sys.model.LoginDto;
 import com.sjy.book_sys.model.LoginResDto;
 import com.sjy.book_sys.model.MemberDto;
@@ -67,6 +68,8 @@ public class MemberController {
 			return ResponseEntity.ok(loginMember);	
 		}catch(IllegalArgumentException e) {
 			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}catch(NoPermissionException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}

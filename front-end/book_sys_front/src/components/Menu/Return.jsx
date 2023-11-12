@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import UserList from "../../asset/user_list.png";
-import Books from "../../asset/books.png";
 import Home from "../../asset/home.png";
 import RentList from "../bookInfo/BookRentList";
 
@@ -12,10 +10,6 @@ const Return = () => {
   //로그인 정보
   const loginId = useSelector((state) => state.saveLoginInfo.loginId);
   const memberType = useSelector((state) => state.saveLoginInfo.memberType);
-  //member조회
-  const showMemberList = () => {
-    setShowRentList(false);
-  };
   //rentId
   const [rentId, setRentId] = useState("");
   //memberId
@@ -24,10 +18,6 @@ const Return = () => {
   const [inputBookName, setInputBookName] = useState("");
   //bookId
   const [bookId, setBookId] = useState("");
-  const [availableBookCnt, setAvailableBookCnt] = useState();
-
-  // 대출 이력 보기 상태
-  const [showRentList, setShowRentList] = useState(true);
 
   //선택한 책 정보
   const [selectBook, setSelectBook] = useState({
@@ -35,17 +25,14 @@ const Return = () => {
     bookName: "",
   });
 
-  useEffect(() => {
-    console.log("inputBookName : ", inputBookName);
-  }, [inputBookName]);
-
+  //화면 렌더링
   useEffect(() => {
     console.log("selectBook : ", selectBook.bookName);
     setInputBookName(selectBook.bookName);
   }, [selectBook]);
 
   //반납 신청 버튼 클릭
-  const applyReturn = (e) => {
+  const applyReturn = () => {
     const request = {
       rentId: rentId,
       memberId: selectMemberId,
@@ -124,8 +111,8 @@ const Return = () => {
             />
           </div>
           <button
-            onClick={(e) => {
-              applyReturn(e);
+            onClick={() => {
+              applyReturn();
             }}
             className="bg-blue-200 text-lg p-2 mt-5 w-[540px] rounded-md text-gray-500"
           >

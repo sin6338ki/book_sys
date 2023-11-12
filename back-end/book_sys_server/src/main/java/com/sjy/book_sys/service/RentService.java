@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.sjy.book_sys.exception.AlreadyRentException;
 import com.sjy.book_sys.mapper.RentMapper;
 import com.sjy.book_sys.model.RentDto;
 import com.sjy.book_sys.model.RentListResDto;
@@ -25,10 +26,10 @@ public class RentService {
 	 * @return 대여 성공시 "success rent", 실패시 "fail rent", 대여 불가능한 책이라면 예상 반납일
 	 */
 	public String applyRent(RentDto rentDto) {
-		String isPossibleRent = "";
-		try {
-			//책 대여 가능 여부 확인
-			isPossibleRent = isSameBook(rentDto);
+
+		//책 대여 가능 여부 확인
+		String isPossibleRent = isSameBook(rentDto);
+		if(isPossibleRent.equals("possible rent")) {
 			//Rent 테이블 insert
 			int resultOfRent = rentMapper.insertRent(rentDto);
 			//Book 테이블 대출 권수 추가
@@ -41,12 +42,9 @@ public class RentService {
 			}else {
 				return "fail rent";
 			}
-		}catch(NullPointerException e) { //책 대여 불가능시
-			return isPossibleRent;
-		}catch(Exception e) {
-			e.printStackTrace();
-			return "sever error";
-		}
+		}else {
+			throw new AlreadyRentException(isPossibleRent);
+		}	
 	}
 	
 	/**

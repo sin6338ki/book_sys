@@ -1,0 +1,82 @@
+package com.sjy.book_sys.controller;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.sjy.book_sys.model.RentDto;
+import com.sjy.book_sys.model.RentListResDto;
+import com.sjy.book_sys.model.ReturnDto;
+import com.sjy.book_sys.service.MemberService;
+import com.sjy.book_sys.service.RentService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Tag(name = "대출/반납 Controller", description = "도서 대출 및 반납 관련 Controller입니다.")
+@Slf4j
+@RequiredArgsConstructor
+@RestController
+public class RentController {
+	
+	private final RentService rentService;
+	
+	@Operation(summary="대출 신청 API", description="회원 ID와 도서ID를 기반으로 도서 대출을 신청합니다.")
+	@PostMapping("/api/rent")
+	public ResponseEntity<?> applyRent(@RequestBody RentDto rentDto){
+		log.info("rentDTO : {}", rentDto.getBookId());
+		String rentResult = rentService.applyRent(rentDto);
+		
+		if(rentResult.equals("rent success")) {
+			log.info("rent result : {}", rentResult);
+			return ResponseEntity.status(HttpStatus.CREATED).body(rentResult);
+		}else if(rentResult.equals("대출 중인 책입니다")) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(rentResult);
+		}else {
+			log.info("rent result : {}", rentResult);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(rentResult); 
+		}
+	}
+	
+	@Operation(summary="member 대출 가능 도서 권수 조회 API", description="회원 ID를 통해 대여 가능한 도서 권수를 출력합니다.")
+	@GetMapping("/api/rent/{memberId}")
+	public ResponseEntity<?> findRentCnt(@PathVariable String memberId){
+		int rentPossibleCnt = rentService.findRentCnt(memberId);
+		if(rentPossibleCnt > 0) {
+			return ResponseEntity.ok().body(rentPossibleCnt);			
+		}else if(rentPossibleCnt == -1){
+			return ResponseEntity.ok().body("아이디가 존재하지 않습니다.");
+		}else {
+			return ResponseEntity.ok().body("더 이상 도서 대여가 불가능합니다");
+		}
+	}
+	
+	@Operation(summary="해당 도서 대출 이력 조회 API", description="bookId를 통해 도서의 대출 이력을 조회합니다.")
+	@GetMapping("/api/rent")
+	public ResponseEntity<?> findRentListById(@RequestParam("bookName") String bookName){
+		try {
+			List<RentListResDto> rentList = rentService.findRentListById(bookName);
+			return ResponseEntity.ok().body(rentList);
+		}catch(NullPointerException e) {
+			return ResponseEntity.ok().body(e.getMessage());
+		}
+	}
+	
+	@Operation(summary="도서 반납 API", description="도서 반납을 진행합니다.")
+	@PatchMapping("/return")
+	public ResponseEntity<?> returnBook(@RequestBody ReturnDto returnDto){
+		String returnResult = rentService.returnBook(returnDto);
+		return ResponseEntity.ok().body(returnResult);
+	}
+}

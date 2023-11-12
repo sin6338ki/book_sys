@@ -1,0 +1,8 @@
+package com.sjy.book_sys;
+
+public class BookSysException extends RuntimeException {
+
+	public AlreadyStoredException(String message) {
+		super(message);
+	}
+}

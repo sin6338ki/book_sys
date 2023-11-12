@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ const Rent = ({
   inputBookName,
   selectBook,
   setInputBookName,
+  setButtonStates,
 }) => {
   const navigate = useNavigate();
   const loginId = useSelector((state) => state.saveLoginInfo.loginId);
@@ -33,10 +34,14 @@ const Rent = ({
           alert("도서 대출 신청이 완료되었습니다!");
           setInputBookName("");
           setInputMemberId("");
+          setButtonStates("신청");
         }
       })
       .catch((e) => {
         console.log("applyRent error : ", e);
+        alert(e.response.data);
+        setInputBookName("");
+        setButtonStates("신청");
       });
   };
 

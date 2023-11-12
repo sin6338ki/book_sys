@@ -1,0 +1,8 @@
+package com.sjy.book_sys.exception;
+
+public class AlreadyRentException extends RuntimeException{
+	
+	public AlreadyRentException(String expectedReturnDt) {
+		super("Already Rent Book.... : until + " + expectedReturnDt);
+	}
+}

@@ -3,19 +3,15 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Main = () => {
-  const loginId = useSelector((state) => state.saveLoginInfo.loginId);
   const memberType = useSelector((state) => state.saveLoginInfo.memberType);
 
-  useEffect(() => {
-    console.log("memberType : ", memberType);
-  }, []);
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <img
         className="w-full h-1/2"
         src="https://images.unsplash.com/photo-1602722053020-af31042989d5?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
       />
-      <h4 className="text-8xl mt-14 font-extrabold">셀프 도서 대출 시스템</h4>
+      <h4 className="text-8xl mt-14 font-extrabold">도서 대출 시스템</h4>
       {memberType != 1 ? (
         <>
           <Link

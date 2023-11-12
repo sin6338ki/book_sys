@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sjy.book_sys.exception.AlreadyRentException;
 import com.sjy.book_sys.model.RentDto;
 import com.sjy.book_sys.model.RentListResDto;
 import com.sjy.book_sys.model.ReturnDto;
@@ -35,16 +36,21 @@ public class RentController {
 	@Operation(summary="대출 신청 API", description="회원 ID와 도서ID를 기반으로 도서 대출을 신청합니다.")
 	@PostMapping("/api/rent")
 	public ResponseEntity<?> applyRent(@RequestBody RentDto rentDto){
-		log.info("rentDTO : {}", rentDto.getBookId());
-		String rentResult = rentService.applyRent(rentDto);
-		
-		if(rentResult.equals("rent success")) {
-			log.info("rent result : {}", rentResult);
-			return ResponseEntity.status(HttpStatus.CREATED).body(rentResult);
-		}else {
-			log.info("rent result : {}", rentResult);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(rentResult); 
+		try {
+			log.info("rentDTO : {}", rentDto.getBookId());
+			String rentResult = rentService.applyRent(rentDto);
+			
+			if(rentResult.equals("rent success")) {
+				log.info("rent result : {}", rentResult);
+				return ResponseEntity.status(HttpStatus.CREATED).body(rentResult);
+			}else {
+				log.info("rent result : {}", rentResult);
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(rentResult); 
+			}
+		}catch(AlreadyRentException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
+		
 	}
 	
 	@Operation(summary="member 대출 가능 도서 권수 조회 API", description="회원 ID를 통해 대여 가능한 도서 권수를 출력합니다.")
@@ -72,7 +78,7 @@ public class RentController {
 	}
 	
 	@Operation(summary="도서 반납 API", description="도서 반납을 진행합니다.")
-	@PatchMapping("/api/return")
+	@PatchMapping("/return")
 	public ResponseEntity<?> returnBook(@RequestBody ReturnDto returnDto){
 		String returnResult = rentService.returnBook(returnDto);
 		return ResponseEntity.ok().body(returnResult);

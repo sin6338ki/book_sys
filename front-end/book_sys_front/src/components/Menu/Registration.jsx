@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import BookListIcon from "../../asset/book_list.png";
 import UserList from "../../asset/user_list.png";
 import Books from "../../asset/books.png";
 import Home from "../../asset/home.png";
@@ -11,7 +10,6 @@ import BookList from "./BookList";
 
 const Registration = () => {
   const navigate = useNavigate();
-  const loginId = useSelector((state) => state.saveLoginInfo.loginId);
   const memberType = useSelector((state) => state.saveLoginInfo.memberType);
   const [inputBookName, setInputBookName] = useState("");
   const [inputWriter, setInputWriter] = useState("");

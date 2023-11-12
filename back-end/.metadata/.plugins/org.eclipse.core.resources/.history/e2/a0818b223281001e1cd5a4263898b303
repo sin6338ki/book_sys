@@ -1,0 +1,8 @@
+package com.sjy.book_sys;
+
+public class BookSysException extends Exception {
+
+	public AlreadyStoredException(String message) {
+		supuer(message);
+	}
+}

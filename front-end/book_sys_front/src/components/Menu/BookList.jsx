@@ -6,16 +6,14 @@ import { useNavigate } from "react-router-dom";
 const BookList = ({
   availableBookCnt,
   setSelectBook,
-  setUpdateData,
-  setIsUpdate,
+  buttonStates,
+  setButtonStates,
 }) => {
   const navigate = useNavigate();
   //검색한 도서명
   const [searchBookName, setBookName] = useState("");
   //검색 결과 응답 데이터
   const [bookList, setBookList] = useState([]);
-  // 도서별 '신청'/'해제' 상태를 나타내는 state
-  const [buttonStates, setButtonStates] = useState({});
 
   //도서 검색 메서드
   const searchBook = (keyword) => {
@@ -95,7 +93,6 @@ const BookList = ({
           <th className="p-2">대여 가능 권수</th>
           <th className="p-2">대출 신청</th>
           <th className="p-2">대출 이력</th>
-          <th className="p-2">도서 수정</th>
         </tr>
         <tbody>
           {bookList.map((book, idx) => {
@@ -135,23 +132,6 @@ const BookList = ({
                     className="bg-blue-100 px-6"
                   >
                     이동
-                  </button>
-                </td>
-                <td>
-                  <button
-                    onClick={() => {
-                      setUpdateData({
-                        bookName: book.book_name,
-                        bookWriter: book.book_writer,
-                        bookPublisher: book.book_publisher,
-                        bookCnt: book.book_cnt,
-                        bookId: book.book_id,
-                      });
-                      setIsUpdate(true);
-                    }}
-                    className="bg-gray-300 px-6"
-                  >
-                    선택
                   </button>
                 </td>
               </tr>

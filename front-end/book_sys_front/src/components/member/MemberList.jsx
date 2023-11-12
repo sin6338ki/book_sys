@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const MemberList = ({ setSelectMemberId }) => {
+const MemberList = ({ setInputMemberId }) => {
   //검색 회원명
   const [inputMemberName, setMemberName] = useState("");
   //검색 결과 응답 데이터
@@ -9,8 +9,7 @@ const MemberList = ({ setSelectMemberId }) => {
   //회원 결과 없을 때 응답 데이터
   const [noneText, setNoneText] = useState("");
 
-  //화면렌더링
-  //도서 전체 목록
+  //화면렌더링 - 도서 전체 목록
   useEffect(() => {
     searchMemberName("");
   }, []);
@@ -40,7 +39,9 @@ const MemberList = ({ setSelectMemberId }) => {
   };
 
   //대여 버튼 클릭
-  const ckRent = (member) => {};
+  const ckRent = (member) => {
+    setInputMemberId(member.member_id);
+  };
 
   return (
     <div className="mt-10">
@@ -101,16 +102,6 @@ const MemberList = ({ setSelectMemberId }) => {
                       대출신청
                     </button>
                   )}
-                </td>
-                <td>
-                  <button
-                    className="bg-blue-100 px-3"
-                    onClick={() => {
-                      setSelectMemberId(member.member_id);
-                    }}
-                  >
-                    반납신청
-                  </button>
                 </td>
               </tr>
             );

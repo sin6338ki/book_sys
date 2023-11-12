@@ -11,8 +11,7 @@ const BookRentList = ({
   const [allList, setAllList] = useState([]);
   //검색 도서명
   const [searchBookName, setSearchBookName] = useState("");
-  //버튼 Text
-  const [btnText, setBtnText] = useState("선택");
+
   //화면렌더링
   useEffect(() => {
     findAllRentList();

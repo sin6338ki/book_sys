@@ -25,6 +25,9 @@ const Apply = () => {
     bookName: "",
   });
 
+  // 도서별 '신청'/'해제' 상태를 나타내는 state
+  const [buttonStates, setButtonStates] = useState({});
+
   //화면렌더링
   useEffect(() => {
     if (memberType !== 1) {
@@ -121,17 +124,19 @@ const Apply = () => {
           inputBookName={inputBookName}
           availableBookCnt={availableBookCnt}
           setInputBookName={setInputBookName}
+          inputMemberId={inputMemberId}
+          setInputMemberId={setInputMemberId}
+          setButtonStates={setButtonStates}
         />
         {showBookList ? (
           <BookList
             availableBookCnt={availableBookCnt}
             setSelectBook={setSelectBook}
+            buttonStates={buttonStates}
+            setButtonStates={setButtonStates}
           />
         ) : (
-          <MemberList
-            inputMemberId={inputMemberId}
-            setInputMemberId={setInputMemberId}
-          />
+          <MemberList setInputMemberId={setInputMemberId} />
         )}
       </div>
     </div>

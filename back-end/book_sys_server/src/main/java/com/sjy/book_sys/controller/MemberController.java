@@ -51,6 +51,7 @@ public class MemberController {
 	@Operation(summary="중복 아이디 검사 API", description="회원가입 도중 중복 아이디를 검사한다.")
 	@GetMapping("/api/member-id/{memberId}")
 	public ResponseEntity<String> checkId(@PathVariable String memberId){
+		log.info("memberId : ", memberId);
 		boolean isSameId = memberService.checkId(memberId);
 		if(!isSameId) {
 			return ResponseEntity.ok(memberId);

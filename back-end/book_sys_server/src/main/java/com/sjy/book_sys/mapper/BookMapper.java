@@ -20,7 +20,7 @@ public interface BookMapper {
 	 * @param bookRegDto
 	 * @return
 	 */
-	@Insert("insert into book (book_name, book_writer, book_publisher, book_cnt) values (#{bookName}, #{bookWriter}, #{bookPublisher}, #{bookCnt})")
+	@Insert("insert into BOOK (book_name, book_writer, book_publisher, book_cnt) values (#{bookName}, #{bookWriter}, #{bookPublisher}, #{bookCnt})")
 	public int regBook(BookRegDto bookRegDto);
 
 	/**
@@ -28,7 +28,7 @@ public interface BookMapper {
 	 * @param bookName
 	 * @return BookResDto
 	 */
-	@Select("select book_id, book_name, book_writer, book_publisher, book_cnt, book_rental_cnt from book where book_name like #{keyword}")
+	@Select("select book_id, book_name, book_writer, book_publisher, book_cnt, book_rental_cnt from BOOK where book_name like #{keyword}")
 	public List<BookResDto> searchBook(String keyword);
 	
 	/**
@@ -36,7 +36,7 @@ public interface BookMapper {
 	 * @param bookUpdateDto
 	 * @return 성공시 1
 	 */
-	@Update("update book set book_name=#{bookName}, book_writer=#{bookWriter}, book_publisher=#{bookPublisher}, book_mod_dt=SYSDATE(), book_cnt=#{bookCnt} where book_id=#{bookId}")
+	@Update("update BOOK set book_name=#{bookName}, book_writer=#{bookWriter}, book_publisher=#{bookPublisher}, book_mod_dt=SYSDATE(), book_cnt=#{bookCnt} where book_id=#{bookId}")
 	public int updateBookInfo(BookUpdateDto bookUpdateDto);
 	
 }

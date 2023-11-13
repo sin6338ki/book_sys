@@ -49,14 +49,21 @@ public class MemberService {
 	 * @return 중복 아이디 있는 경우 true, 없는 경우 false
 	 */
 	public boolean checkId(String memberId) {
-		String sameId = memberMapper.checkId(memberId);
-		log.info("sameId : ", sameId);
-		
-		if(sameId == null) {
-			return false;
-		}else {
+		try {
+			log.info("ssss");
+			String sameId = memberMapper.checkId(memberId);
+			log.info("sameId : ", sameId);
+			
+			if(sameId == null) {
+				return false;
+			}else {
+				return true;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
 			return true;
 		}
+
 	}
 	
 	/**

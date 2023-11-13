@@ -24,7 +24,7 @@ public interface MemberMapper {
 	 * @param memberDto
 	 * @return
 	 */
-	@Insert("insert into member (member_id, member_pw, member_name) values (#{memberId}, #{memberPw}, #{memberName})")
+	@Insert("insert into MEMBER (member_id, member_pw, member_name) values (#{memberId}, #{memberPw}, #{memberName})")
 	public int signup(MemberDto member);
 	
 	/**
@@ -32,7 +32,7 @@ public interface MemberMapper {
 	 * @param memberId
 	 * @return 중복 아이디 있는 경우 id, 없는 경우 null 반환
 	 */
-	@Select("select member_id from member where member_id=#{memberId}")
+	@Select("select member_id from MEMBER where member_id=#{memberId}")
 	public String checkId(String memberId);
 	
 	/**
@@ -40,7 +40,7 @@ public interface MemberMapper {
 	 * @param member
 	 * @return memberId
 	 */
-	@Select("select * from member where member_id=#{memberId}")
+	@Select("select * from MEMBER where member_id=#{memberId}")
 	public Member login(LoginDto member);
 	
 	/**
@@ -48,6 +48,6 @@ public interface MemberMapper {
 	 * @param keyword
 	 * @return List<MemberResDto>
 	 */
-	@Select("select member_name, member_id, member_rent_cnt from member where member_name like #{keyword}")
+	@Select("select member_name, member_id, member_rent_cnt from MEMBER where member_name like #{keyword}")
 	public List<MemberResDto> findAllMember(String keyword);
 }

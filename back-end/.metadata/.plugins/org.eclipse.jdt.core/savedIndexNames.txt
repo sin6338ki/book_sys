@@ -6,10 +6,10 @@ INDEX VERSION 1.134+C:\Users\신지영\Desktop\book_sys\back-end\.metadata\.plugins
 2857238424.index
 4079242315.index
 2915314356.index
+896149231.index
 196160170.index
 2223531071.index
 3258209849.index
-896149231.index
 4001324009.index
 262993161.index
 3828907561.index
@@ -26,7 +26,6 @@ INDEX VERSION 1.134+C:\Users\신지영\Desktop\book_sys\back-end\.metadata\.plugins
 672605541.index
 2662267192.index
 2282551315.index
-1973895606.index
 2664813504.index
 2339550874.index
 1514293966.index
@@ -46,8 +45,8 @@ INDEX VERSION 1.134+C:\Users\신지영\Desktop\book_sys\back-end\.metadata\.plugins
 663087664.index
 410001857.index
 325241255.index
-3828386683.index
 1293765358.index
+3828386683.index
 314125775.index
 3082840353.index
 2947081081.index

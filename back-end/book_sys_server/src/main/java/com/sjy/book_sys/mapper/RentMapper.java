@@ -92,4 +92,7 @@ public interface RentMapper {
 	 */
 	@Update("update BOOK set book_rental_cnt = book_rental_cnt-1 where book_id=#{bookId}")
 	public int decreaseBookRentalCnt(String bookId);
+	
+	@Select("select expected_return_dt from RENT where return_dt is null and expected_return_dt < SYSDATE() and member_id=#{memberId}")
+	public String isOverdue(String memberId);
 }

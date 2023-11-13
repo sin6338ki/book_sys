@@ -1,0 +1,10 @@
+package com.sjy.book_sys.exception;
+
+import java.time.LocalDate;
+import java.time.Period;
+
+public class HaveOverdueBook extends RuntimeException{
+	public HaveOverdueBook(String period) {
+		super(period + "일 연체된 도서가 있습니다");
+	}
+}

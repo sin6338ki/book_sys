@@ -1,10 +1,13 @@
 package com.sjy.book_sys.service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.sjy.book_sys.exception.AlreadyRentException;
+import com.sjy.book_sys.exception.HaveOverdueBook;
 import com.sjy.book_sys.mapper.RentMapper;
 import com.sjy.book_sys.model.RentDto;
 import com.sjy.book_sys.model.RentListResDto;
@@ -29,6 +32,18 @@ public class RentService {
 
 		//책 대여 가능 여부 확인
 		String isPossibleRent = isSameBook(rentDto);
+		//연체 여부 확인
+		String isOverdue = rentMapper.isOverdue(rentDto.getMemberId());
+		if(isOverdue != null) {
+			//날짜형으로 변환
+			LocalDate date = LocalDate.parse(isOverdue);
+			//오늘날짜
+			LocalDate today = LocalDate.now();
+			//연체일 계산 
+			Period period = Period.between(date, today);
+			throw new HaveOverdueBook(period.toString());
+		}
+		
 		if(isPossibleRent == null) {
 			//Rent 테이블 insert
 			int resultOfRent = rentMapper.insertRent(rentDto);

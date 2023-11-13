@@ -91,6 +91,7 @@ const Registration = () => {
         if (res.data.length > 0) {
           setBookList(res.data);
           setIsUpdate(true);
+          setInputBookName(res.data[0].book_name);
           setInputWriter(res.data[0].book_writer);
           setInputPublisher(res.data[0].book_publisher);
           setInputBookCnt(res.data[0].book_cnt);

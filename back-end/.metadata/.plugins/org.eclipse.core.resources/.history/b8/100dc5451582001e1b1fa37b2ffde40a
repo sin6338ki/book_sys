@@ -1,5 +1,9 @@
 server.servlet.context-path=/
+server.port=${SERVER_PORT}
 spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+spring.datasource.url=${DB_URL}
+spring.datasource.username=${USER_NAME}
+spring.datasource.password=${USER_PASSWORD}
 springdoc.default-consumes-media-type=application/json;charset=UTF-8
 springdoc.default-produces-media-type=application/json;charset=UTF-8
 springdoc.api-docs.enabled=true

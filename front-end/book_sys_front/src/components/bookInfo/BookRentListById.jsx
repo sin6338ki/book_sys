@@ -10,6 +10,8 @@ const BookRentListById = () => {
   const { bookName } = useParams();
   //bookId 대출 이력
   const [allList, setAllList] = useState([]);
+  //대출 이력 없을 때 출력 텍스트
+  const [noneRentListText, setNoneRentListText] = useState("");
 
   //화면렌더링
   useEffect(() => {
@@ -24,7 +26,11 @@ const BookRentListById = () => {
       })
       .then((res) => {
         console.log("findAllRentList response :", res);
-        setAllList(res.data);
+        if (res.data !== "대출이력이 없습니다") {
+          setAllList(res.data);
+        } else {
+          setNoneRentListText(res.data);
+        }
       })
       .catch((e) => {
         console.log("findAllRentList error", e);
@@ -69,18 +75,22 @@ const BookRentListById = () => {
           <th className="p-2">반납 예정일</th>
         </tr>
         <tbody>
-          {allList.map((rent, idx) => {
-            return (
-              <tr>
-                <td className="p-2">{idx + 1}</td>
-                <td className="p-2">{rent.rent_id}</td>
-                <td className="p-2">{rent.member_id}</td>
-                <td className="p-2">{rent.rent_dt}</td>
-                <td className="p-2">{rent.return_dt}</td>
-                <td className="p-2">{rent.expected_return_dt}</td>
-              </tr>
-            );
-          })}
+          {allList.length > 1 ? (
+            allList.map((rent, idx) => {
+              return (
+                <tr>
+                  <td className="p-2">{idx + 1}</td>
+                  <td className="p-2">{rent.rent_id}</td>
+                  <td className="p-2">{rent.member_id}</td>
+                  <td className="p-2">{rent.rent_dt}</td>
+                  <td className="p-2">{rent.return_dt}</td>
+                  <td className="p-2">{rent.expected_return_dt}</td>
+                </tr>
+              );
+            })
+          ) : (
+            <p>{noneRentListText}</p>
+          )}
         </tbody>
       </table>
     </div>

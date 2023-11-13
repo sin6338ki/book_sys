@@ -18,6 +18,8 @@ const Apply = () => {
   const [inputMemberId, setInputMemberId] = useState("");
   const [availableBookCnt, setAvailableBookCnt] = useState();
   const [showBookList, setShowBookList] = useState(true);
+  //대출신청 상태 변화
+  const [isChange, setIsChange] = useState(false);
 
   //선택한 책 정보
   const [selectBook, setSelectBook] = useState({
@@ -125,6 +127,8 @@ const Apply = () => {
           inputMemberId={inputMemberId}
           setInputMemberId={setInputMemberId}
           setButtonStates={setButtonStates}
+          setIsChange={setIsChange}
+          isChange={isChange}
         />
         {showBookList ? (
           <BookList
@@ -132,9 +136,10 @@ const Apply = () => {
             setSelectBook={setSelectBook}
             buttonStates={buttonStates}
             setButtonStates={setButtonStates}
+            isChange={isChange}
           />
         ) : (
-          <MemberList setInputMemberId={setInputMemberId} />
+          <MemberList setInputMemberId={setInputMemberId} isChange={isChange} />
         )}
       </div>
     </div>

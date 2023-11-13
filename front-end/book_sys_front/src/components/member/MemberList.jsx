@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const MemberList = ({ setInputMemberId }) => {
+const MemberList = ({ setInputMemberId, isChange }) => {
   //검색 회원명
   const [inputMemberName, setMemberName] = useState("");
   //검색 결과 응답 데이터
@@ -9,10 +9,10 @@ const MemberList = ({ setInputMemberId }) => {
   //회원 결과 없을 때 응답 데이터
   const [noneText, setNoneText] = useState("");
 
-  //화면렌더링 - 도서 전체 목록
+  //화면렌더링 - 회원 전체 목록
   useEffect(() => {
     searchMemberName("");
-  }, []);
+  }, [isChange]);
 
   //회원 검색 메서드
   const searchMemberName = (keyword) => {

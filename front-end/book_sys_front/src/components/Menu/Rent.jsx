@@ -11,6 +11,8 @@ const Rent = ({
   selectBook,
   setInputBookName,
   setButtonStates,
+  setIsChange,
+  isChange,
 }) => {
   const navigate = useNavigate();
   const loginId = useSelector((state) => state.saveLoginInfo.loginId);
@@ -35,6 +37,7 @@ const Rent = ({
           setInputBookName("");
           setInputMemberId("");
           setButtonStates("신청");
+          setIsChange(!isChange);
         }
       })
       .catch((e) => {

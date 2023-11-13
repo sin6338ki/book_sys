@@ -7,6 +7,7 @@ const BookList = ({
   setSelectBook,
   buttonStates,
   setButtonStates,
+  isChange,
 }) => {
   const navigate = useNavigate();
   //검색한 도서명
@@ -17,7 +18,7 @@ const BookList = ({
   //도서 전체 목록
   useEffect(() => {
     searchBook("");
-  }, []);
+  }, [isChange]);
 
   //도서 검색 메서드
   const searchBook = (keyword) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import Home from "../../asset/home.png";
 
 const Registration = () => {
   const navigate = useNavigate();
+  const loginId = useSelector((state) => state.saveLoginInfo.loginId);
   const memberType = useSelector((state) => state.saveLoginInfo.memberType);
   const [inputBookName, setInputBookName] = useState("");
   const [inputWriter, setInputWriter] = useState("");
@@ -15,6 +16,17 @@ const Registration = () => {
   const [inputBookCnt, setInputBookCnt] = useState(1);
   const [inputBookId, setInputBookId] = useState("");
   const [bookList, setBookList] = useState([]);
+  //검색 도서 이름 저장
+  const [searchBookName, setSearchBookName] = useState("");
+
+  //화면 렌더링
+  useEffect(() => {
+    if (loginId && memberType === 1) {
+    } else {
+      alert("관리자 계정만 접근이 가능합니다.");
+      navigate("/");
+    }
+  }, [loginId, memberType]);
 
   //수정, 등록 판단
   const [isUpdate, setIsUpdate] = useState(false);
@@ -31,7 +43,7 @@ const Registration = () => {
       axios
         .post(`${process.env.REACT_APP_API_URL}/book`, data)
         .then((res) => {
-          console.log("regBook response : ", res);
+          // console.log("regBook response : ", res);
           if (res.data === "success book registration") {
             alert("등록이 완료되었습니다.");
             //입력창 초기화
@@ -42,7 +54,7 @@ const Registration = () => {
           }
         })
         .catch((e) => {
-          console.log("regBook error : ", e);
+          // console.log("regBook error : ", e);
         });
     } else {
       alert("모든 항목을 입력해 주세요");
@@ -62,7 +74,7 @@ const Registration = () => {
       axios
         .put(`${process.env.REACT_APP_API_URL}/book`, data)
         .then((res) => {
-          console.log("updateBook response : ", res);
+          // console.log("updateBook response : ", res);
           if (res.data === "update success") {
             alert("수정이 완료되었습니다.");
             //입력창 초기화
@@ -70,10 +82,11 @@ const Registration = () => {
             setInputWriter("");
             setInputPublisher("");
             setInputBookCnt(1);
+            setIsUpdate(false);
           }
         })
         .catch((e) => {
-          console.log("updateBook error : ", e);
+          // console.log("updateBook error : ", e);
         });
     } else {
       alert("모든 항목을 입력해 주세요");
@@ -82,12 +95,14 @@ const Registration = () => {
 
   //도서 검색 메서드
   const searchBook = () => {
+    // console.log("input book name : ", inputBookName);
+    setSearchBookName(inputBookName);
     axios
       .get(`${process.env.REACT_APP_API_URL}/book`, {
         params: { keyword: inputBookName },
       })
       .then((res) => {
-        console.log("searchBook result : ", res);
+        // console.log("searchBook result : ", res);
         if (res.data.length > 0) {
           setBookList(res.data);
           setIsUpdate(true);
@@ -98,11 +113,23 @@ const Registration = () => {
           setInputBookId(res.data[0].book_id);
         } else {
           alert("검색 결과가 없습니다");
+          setInputBookName(inputBookName);
+          // console.log("input Book Name : ", inputBookName);
+          setIsUpdate(false);
+          setInputWriter("");
+          setInputPublisher("");
+          setInputBookCnt(1);
         }
       })
       .catch((e) => {
-        console.log("searchBook error : ", e);
+        // console.log("searchBook error : ", e);
         alert("검색 결과가 없습니다");
+        // console.log("input Book Name : ", searchBookName);
+        setInputBookName(searchBookName);
+        setIsUpdate(false);
+        setInputWriter("");
+        setInputPublisher("");
+        setInputBookCnt(1);
       });
   };
 

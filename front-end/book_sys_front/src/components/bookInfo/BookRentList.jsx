@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const BookRentList = ({
   setInputBookName,
@@ -7,6 +9,10 @@ const BookRentList = ({
   setSelectMemberId,
   setBookId,
 }) => {
+  const navigate = useNavigate();
+  //로그인 정보
+  const loginId = useSelector((state) => state.saveLoginInfo.loginId);
+  const memberType = useSelector((state) => state.saveLoginInfo.memberType);
   //전체 대출 이력
   const [allList, setAllList] = useState([]);
   //검색 도서명
@@ -14,8 +20,13 @@ const BookRentList = ({
 
   //화면렌더링
   useEffect(() => {
-    findAllRentList();
-  }, []);
+    if (loginId && memberType === 1) {
+      findAllRentList();
+    } else {
+      alert("관리자 계정만 접근이 가능합니다.");
+      navigate("/");
+    }
+  }, [loginId, memberType]);
 
   //전체 조회
   const findAllRentList = () => {
@@ -24,11 +35,11 @@ const BookRentList = ({
         params: { bookName: "ALL" },
       })
       .then((res) => {
-        console.log("findAllRentList response :", res);
+        // console.log("findAllRentList response :", res);
         setAllList(res.data);
       })
       .catch((e) => {
-        console.log("findAllRentList error", e);
+        // console.log("findAllRentList error", e);
       });
   };
 
@@ -39,7 +50,7 @@ const BookRentList = ({
         params: { bookName: searchBookName },
       })
       .then((res) => {
-        console.log("findAllRentList response :", res);
+        // console.log("findAllRentList response :", res);
         if (res.data !== "대출이력이 없습니다") {
           setAllList(res.data);
         } else {
@@ -47,7 +58,7 @@ const BookRentList = ({
         }
       })
       .catch((e) => {
-        console.log("findAllRentList error", e);
+        // console.log("findAllRentList error", e);
       });
   };
 

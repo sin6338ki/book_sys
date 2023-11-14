@@ -56,11 +56,11 @@ const Join = () => {
       alert("아이디 중복 체크와 비밀번호를 동일하게 입력해 주세요");
     } else {
       //회원가입 요청
-      console.log("inputId : ", inputId);
+      // console.log("inputId : ", inputId);
       axios
         .post(`${process.env.REACT_APP_API_URL}/member`, signupMember)
         .then((res) => {
-          console.log("signup res : ", res);
+          // console.log("signup res : ", res);
           if (res.status === 201) {
             navigate("/");
           } else {
@@ -68,7 +68,7 @@ const Join = () => {
           }
         })
         .catch((e) => {
-          console.log("signup err : ", e);
+          // console.log("signup err : ", e);
         });
     }
   };
@@ -78,7 +78,7 @@ const Join = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/member-id/${inputId}`)
       .then((res) => {
-        console.log("checkId res : ", res.data);
+        // console.log("checkId res : ", res.data);
         if (res.data === "중복 아이디가 존재합니다") {
           alert(res.data);
         } else {
@@ -87,7 +87,7 @@ const Join = () => {
         }
       })
       .catch((e) => {
-        console.log("checkId error : ", e);
+        // console.log("checkId error : ", e);
       });
   };
 

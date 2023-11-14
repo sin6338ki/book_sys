@@ -3,9 +3,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Home from "../../asset/home.png";
 import RentIcon from "../../asset/books.png";
+import { useSelector } from "react-redux";
 
 const BookRentListById = () => {
   const navigate = useNavigate();
+  //로그인 정보
+  const loginId = useSelector((state) => state.saveLoginInfo.loginId);
+  const memberType = useSelector((state) => state.saveLoginInfo.memberType);
   //bookid
   const { bookName } = useParams();
   //bookId 대출 이력
@@ -15,8 +19,13 @@ const BookRentListById = () => {
 
   //화면렌더링
   useEffect(() => {
-    findAllRentList();
-  }, []);
+    if (loginId && memberType === 1) {
+      findAllRentList();
+    } else {
+      alert("관리자 계정만 접근이 가능합니다.");
+      navigate("/");
+    }
+  }, [loginId, memberType]);
 
   //전체 조회
   const findAllRentList = () => {
@@ -25,7 +34,7 @@ const BookRentListById = () => {
         params: { bookName: bookName },
       })
       .then((res) => {
-        console.log("findAllRentList response :", res);
+        // console.log("findAllRentList response :", res);
         if (res.data !== "대출이력이 없습니다") {
           setAllList(res.data);
         } else {
@@ -33,7 +42,7 @@ const BookRentListById = () => {
         }
       })
       .catch((e) => {
-        console.log("findAllRentList error", e);
+        // console.log("findAllRentList error", e);
       });
   };
 
@@ -75,22 +84,23 @@ const BookRentListById = () => {
           <th className="p-2">반납 예정일</th>
         </tr>
         <tbody>
-          {allList.length > 1 ? (
+          {allList.length > 0 &&
             allList.map((rent, idx) => {
               return (
                 <tr>
-                  <td className="p-2">{idx + 1}</td>
+                  <td className="p-2" key="rent.rent_id">
+                    {idx + 1}
+                  </td>
                   <td className="p-2">{rent.rent_id}</td>
                   <td className="p-2">{rent.member_id}</td>
                   <td className="p-2">{rent.rent_dt}</td>
-                  <td className="p-2">{rent.return_dt}</td>
+                  <td className="p-2">
+                    {rent.return_dt === null ? "반납대기" : rent.return_dt}
+                  </td>
                   <td className="p-2">{rent.expected_return_dt}</td>
                 </tr>
               );
-            })
-          ) : (
-            <p>{noneRentListText}</p>
-          )}
+            })}
         </tbody>
       </table>
     </div>

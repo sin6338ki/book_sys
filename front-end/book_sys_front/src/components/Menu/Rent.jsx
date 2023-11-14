@@ -20,7 +20,7 @@ const Rent = ({
 
   //대출 신청 버튼 클릭
   const applyRent = (e) => {
-    console.log("inputMemberId : ", inputMemberId);
+    // console.log("inputMemberId : ", inputMemberId);
     const request = {
       bookId: selectBook.bookId,
       memberId: inputMemberId,
@@ -29,10 +29,10 @@ const Rent = ({
     axios
       .post(`${process.env.REACT_APP_API_URL}/rent`, request)
       .then((res) => {
-        console.log("applyRent response : ", res);
+        // console.log("applyRent response : ", res);
         if (res.data === "rent success") {
-          console.log("memberType : ", memberType);
-          console.log("memberId : ", loginId);
+          // console.log("memberType : ", memberType);
+          // console.log("memberId : ", loginId);
           alert("도서 대출 신청이 완료되었습니다!");
           setInputBookName("");
           setInputMemberId("");
@@ -41,7 +41,7 @@ const Rent = ({
         }
       })
       .catch((e) => {
-        console.log("applyRent error : ", e);
+        // console.log("applyRent error : ", e);
         alert(e.response.data);
         setInputBookName("");
         setButtonStates("신청");

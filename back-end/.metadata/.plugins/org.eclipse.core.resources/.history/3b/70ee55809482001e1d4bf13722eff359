@@ -1,0 +1,13 @@
+server.servlet.context-path=/
+server.port=8085
+
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+spring.datasource.url=jdbc:mariadb://booksysdb.cbodsmehwaem.ap-northeast-2.rds.amazonaws.com:3306/book_sys
+spring.datasource.username=todo
+spring.datasource.password=1021205
+
+springdoc.default-consumes-media-type=application/json;charset=UTF-8
+springdoc.default-produces-media-type=application/json;charset=UTF-8
+springdoc.api-docs.enabled=true
+springdoc.swagger-ui.enabled=true
+springdoc.enable-javadoc=true

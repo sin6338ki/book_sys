@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import RentList from "../bookInfo/BookRentList";
 const Return = () => {
   const navigate = useNavigate();
   //로그인 정보
+  const loginId = useSelector((state) => state.saveLoginInfo.loginId);
   const memberType = useSelector((state) => state.saveLoginInfo.memberType);
   //rentId
   const [rentId, setRentId] = useState("");
@@ -17,6 +18,15 @@ const Return = () => {
   const [inputBookName, setInputBookName] = useState("");
   //bookId
   const [bookId, setBookId] = useState("");
+
+  //화면렌더링
+  useEffect(() => {
+    if (loginId && memberType === 1) {
+    } else {
+      alert("관리자 계정만 접근이 가능합니다.");
+      navigate("/");
+    }
+  }, [loginId, memberType]);
 
   //반납 신청 버튼 클릭
   const applyReturn = () => {
@@ -29,7 +39,7 @@ const Return = () => {
     axios
       .put(`${process.env.REACT_APP_API_URL}/return`, request)
       .then((res) => {
-        console.log("applyRent response : ", res);
+        // console.log("applyRent response : ", res);
         if (res.data === "return success") {
           alert("도서 반납이 완료되었습니다!");
           setInputBookName("");
@@ -37,7 +47,7 @@ const Return = () => {
         }
       })
       .catch((e) => {
-        console.log("applyReturn error : ", e);
+        // console.log("applyReturn error : ", e);
       });
   };
 

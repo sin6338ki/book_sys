@@ -27,7 +27,7 @@ const BookList = ({
         params: { keyword: keyword },
       })
       .then((res) => {
-        console.log("searchBook result : ", res);
+        // console.log("searchBook result : ", res);
         if (res.data.length > 0) {
           setBookList(res.data);
           setBookName("");
@@ -36,7 +36,7 @@ const BookList = ({
         }
       })
       .catch((e) => {
-        console.log("searchBook error : ", e);
+        // console.log("searchBook error : ", e);
         alert("검색 결과가 없습니다");
         setBookName("");
       });
@@ -46,14 +46,14 @@ const BookList = ({
   const ckRent = (book) => {
     const newButtonStates = { ...buttonStates };
     if (!newButtonStates[book.book_id]) {
-      console.log("신청 버튼 클릭", book);
+      // console.log("신청 버튼 클릭", book);
       setSelectBook({
         bookId: book.book_id,
         bookName: book.book_name,
       });
       newButtonStates[book.book_id] = true;
     } else {
-      console.log("해제 버튼 클릭");
+      // console.log("해제 버튼 클릭");
       setSelectBook({
         bookId: "",
         bookName: "",

@@ -51,6 +51,12 @@ const Main = () => {
           >
             로그아웃
           </button>
+          <Link
+            to="/join"
+            className="mt-7 text-4xl rounded-full bg-gray-500 py-3 w-[560px] text-center text-white"
+          >
+            회원 등록
+          </Link>
         </>
       )}
     </div>

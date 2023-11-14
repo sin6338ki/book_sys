@@ -21,7 +21,7 @@ const Login = () => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/login`, loginMember)
       .then((res) => {
-        console.log("login res : ", res.data);
+        // console.log("login res : ", res.data);
         //리덕스에 로그인한 사용자 아이디 저장
         if (res.status === 200) {
           dispatch(saveInfo(res.data.memberId, res.data.memberType));
@@ -29,7 +29,7 @@ const Login = () => {
         }
       })
       .catch((e) => {
-        console.log("login error : ", e);
+        // console.log("login error : ", e);
         const message = e.response.data;
         alert(message);
         setInputId("");

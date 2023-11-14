@@ -32,18 +32,20 @@ const Apply = () => {
 
   //화면렌더링
   useEffect(() => {
-    if (memberType !== 1) {
-      setInputMemberId(loginId);
+    if (loginId && memberType === 1) {
+    } else {
+      alert("관리자 계정만 접근이 가능합니다.");
+      navigate("/");
     }
   }, [loginId, memberType]);
 
   useEffect(() => {
-    console.log("selectBook : ", selectBook.bookName);
+    // console.log("selectBook : ", selectBook.bookName);
     setInputBookName(selectBook.bookName);
   }, [selectBook]);
 
   useEffect(() => {
-    loginId && findAvailableBookCnt();
+    inputMemberId !== "" && findAvailableBookCnt();
   }, [inputBookName, inputMemberId, loginId]);
 
   //도서 대출 가능 권수 조회 메서드
@@ -51,7 +53,7 @@ const Apply = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/rent/${inputMemberId}`)
       .then((res) => {
-        console.log("findAvailableBookCnt response : ", res);
+        // console.log("findAvailableBookCnt response : ", res);
         if (res.data === "더 이상 도서 대여가 불가능합니다") {
           setAvailableBookCnt(0);
         } else if (res.data === "아이디가 존재하지 않습니다.") {
@@ -61,7 +63,7 @@ const Apply = () => {
         }
       })
       .catch((e) => {
-        console.log("findAvailableBookCnt error : ", e);
+        // console.log("findAvailableBookCnt error : ", e);
       });
   };
 
@@ -74,48 +76,44 @@ const Apply = () => {
       <div className="flex flex-row justify-between items-center p-7 bg-yellow-200">
         <h4 className="text-4xl font-extrabold">도서 대출/반납 신청</h4>
         <div>
-          {memberType === 1 && (
-            <>
-              <button
-                className="w-24 h-16 mr-10"
-                onClick={() => {
-                  navigate("/registration");
-                }}
-              >
-                <img src={BookListIcon}></img>
-                <p className="font-bold">도서 등록/수정</p>
-              </button>
-              <button
-                alter="member-list-icon"
-                className="w-24 h-16 mr-10"
-                onClick={() => {
-                  showMemberList();
-                }}
-              >
-                <img src={UserList}></img>
-                <p className="font-bold">회원 목록</p>
-              </button>
-              <button
-                alt="book-list-icon"
-                className="w-24 h-16 mr-10"
-                onClick={() => {
-                  setShowBookList(true);
-                }}
-              >
-                <img src={Books} alt="book-list-icon"></img>
-                <p className="font-bold">도서 목록</p>
-              </button>
-              <button
-                className="w-24 h-16"
-                onClick={() => {
-                  navigate("/");
-                }}
-              >
-                <img alt="home-icon" src={Home}></img>
-                <p className="font-bold">메인메뉴</p>
-              </button>
-            </>
-          )}
+          <button
+            className="w-24 h-16 mr-10"
+            onClick={() => {
+              navigate("/registration");
+            }}
+          >
+            <img src={BookListIcon}></img>
+            <p className="font-bold">도서 등록/수정</p>
+          </button>
+          <button
+            alter="member-list-icon"
+            className="w-24 h-16 mr-10"
+            onClick={() => {
+              showMemberList();
+            }}
+          >
+            <img src={UserList}></img>
+            <p className="font-bold">회원 목록</p>
+          </button>
+          <button
+            alt="book-list-icon"
+            className="w-24 h-16 mr-10"
+            onClick={() => {
+              setShowBookList(true);
+            }}
+          >
+            <img src={Books} alt="book-list-icon"></img>
+            <p className="font-bold">도서 목록</p>
+          </button>
+          <button
+            className="w-24 h-16"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            <img alt="home-icon" src={Home}></img>
+            <p className="font-bold">메인메뉴</p>
+          </button>
         </div>
       </div>
       <div className="flex flex-row justify-around">

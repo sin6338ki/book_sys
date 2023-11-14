@@ -55,7 +55,7 @@ public class BookController {
 	        List<BookResDto> resultList = bookService.searchBook(keyword);
 	        return ResponseEntity.ok().body(resultList);
 	    } catch (NullPointerException e) {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("검색 결과가 없습니다.");
+	        return ResponseEntity.ok().body("검색 결과가 없습니다.");
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 내부 에러");

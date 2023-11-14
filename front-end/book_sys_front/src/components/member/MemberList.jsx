@@ -21,7 +21,7 @@ const MemberList = ({ setInputMemberId, isChange }) => {
         params: { keyword: keyword },
       })
       .then((res) => {
-        console.log("searchMember result : ", res);
+        // console.log("searchMember result : ", res);
         if (res.data === "회원 정보가 존재하지 않습니다.") {
           setNoneText(res.data);
           setMemberName("");
@@ -32,7 +32,7 @@ const MemberList = ({ setInputMemberId, isChange }) => {
         }
       })
       .catch((e) => {
-        console.log("searchBook error : ", e);
+        // console.log("searchBook error : ", e);
         alert("검색 결과가 없습니다");
         setMemberName("");
       });
@@ -70,7 +70,9 @@ const MemberList = ({ setInputMemberId, isChange }) => {
           {memberList.map((member, idx) => {
             return (
               <tr>
-                <td className="p-2">{idx + 1}</td>
+                <td className="p-2" key={member.member_id}>
+                  {idx + 1}
+                </td>
                 <td className="p-2">{member.member_name}</td>
                 <td className="p-2">{member.member_id}</td>
                 <td className="p-2">

@@ -1,4 +1,6 @@
 ## 도서 관리 시스템
+![image](https://github.com/sin6338ki/book_sys/assets/130349912/8704d786-3a23-422b-b32c-1b7992566e8b)
+
 ### 시스템 아키텍처
 ![image](https://github.com/sin6338ki/book_sys/assets/130349912/f1b4036c-609d-4855-a434-610fcafe9841)
 

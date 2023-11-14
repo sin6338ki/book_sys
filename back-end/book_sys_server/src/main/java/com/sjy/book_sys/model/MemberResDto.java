@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
  * Member 조회 response DTO
  * @author 신지영
  * @since 2023.11.11
+ * @version 1.0
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

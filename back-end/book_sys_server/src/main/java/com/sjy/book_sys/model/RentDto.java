@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
  * 도서 대출 신청 DTO
  * @author 신지영
  * @since 2023.11.10
+ * @version 1.0
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

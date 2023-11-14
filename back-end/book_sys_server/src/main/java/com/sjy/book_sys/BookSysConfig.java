@@ -7,7 +7,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * cors 설정을 위한 configuration
- * 
  * @author 신지영
  * @since 2023.11.08
  * @version 1.0
@@ -24,5 +23,4 @@ public class BookSysConfig implements WebMvcConfigurer {
         .allowedMethods("GET","POST", "PUT", "DELETE", "OPTIONS")
         .allowedHeaders("*");
 	}
-
 }

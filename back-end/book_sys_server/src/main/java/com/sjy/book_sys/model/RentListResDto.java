@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
  * 등록된 도서에 대한 대출 이력 ResponseDTO
  * @author 신지영
  * @since 2023.11.11
+ * @version 1.0
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

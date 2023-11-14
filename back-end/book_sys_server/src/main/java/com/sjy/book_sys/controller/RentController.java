@@ -25,7 +25,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ * 도서 대출/반납 Controlloer
+ * @author 신지영
+ * @since 2023.11.11
+ * @version 1.0
+ */
 @Tag(name = "대출/반납 Controller", description = "도서 대출 및 반납 관련 Controller입니다.")
 @Slf4j
 @RequiredArgsConstructor

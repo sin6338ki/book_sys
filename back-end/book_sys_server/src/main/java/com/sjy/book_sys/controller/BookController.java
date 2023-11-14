@@ -24,9 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 도서 관련 Controller
- * 
  * @author 신지영
  * @since 2023.11.10
+ * @version 1.0
  */
 @Tag(name = "도서 Controller", description = "도서 등록")
 @Slf4j

@@ -7,7 +7,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * 비밀번호 암호화를 위한 Spring-Security-crypto 설정 파일
- * 
  * @author 신지영
  * @since 2023.11.08
  * @version 1.0
@@ -20,5 +19,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  * 회원 관련 Service
  * @author 신지영
  * @since 2023.11.08
+ * @version 1.0
  */
 @Slf4j
 @RequiredArgsConstructor

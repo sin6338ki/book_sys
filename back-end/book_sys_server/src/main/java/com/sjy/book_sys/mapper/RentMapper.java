@@ -93,6 +93,11 @@ public interface RentMapper {
 	@Update("update BOOK set book_rental_cnt = book_rental_cnt-1 where book_id=#{bookId}")
 	public int decreaseBookRentalCnt(String bookId);
 	
+	/**
+	 * 연체 여부 확인
+	 * @param memberId
+	 * @return 연체 도서 있을 경우 expected_return_dt 반환
+	 */
 	@Select("select expected_return_dt from RENT where return_dt is null and expected_return_dt < SYSDATE() and member_id=#{memberId}")
 	public String isOverdue(String memberId);
 }

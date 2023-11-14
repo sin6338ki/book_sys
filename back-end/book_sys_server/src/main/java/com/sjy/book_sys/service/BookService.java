@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  * Book(도서) 관련 Service
  * @author 신지영
  * @since 2023.11.10
+ * @version 1.0
  */
 @Slf4j
 @RequiredArgsConstructor

@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 /**
  * Member Entity
  * 사용자 정보를 담는 엔터티
- * 
  * @author 신지영
+ * @since 2023.11.08
  * @version 1.0
  */
 

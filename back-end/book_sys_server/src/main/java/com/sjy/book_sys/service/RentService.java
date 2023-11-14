@@ -16,6 +16,12 @@ import com.sjy.book_sys.model.ReturnDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 대출, 대여 관련 service
+ * @author 신지영
+ * @since 2023.11.11
+ * @version 1.0
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor

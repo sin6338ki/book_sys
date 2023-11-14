@@ -25,9 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 회원 관련 Controller
- * 
  * @author 신지영
  * @since 2023.11.08
+ * @version 1.0
  */
 @Tag(name = "회원 Controller", description = "회원가입, 중복 아이디 검사, 로그인")
 @Slf4j

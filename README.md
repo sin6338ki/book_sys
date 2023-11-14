@@ -18,3 +18,17 @@
 - Tailwind CSS 적용 디자인
 - Springdoc(Swagger) 적용하여 API 문서 자동화
 - Jenkins 를 통한 CI/CD 구축
+
+### 향후 발전 방향 
+- FRONT-END 빌드 실패 >> key 권한 및 접근 권한 문제 발생으로 build 파일 접근 불가 >> 문제 해결 예정
+- 사진, 상세 도서 설명 등 기능 추가
+- BACK-END 코드 리팩토링
+- spring security 적용 보안 설정 진행
+- docker 적용
+
+### 트러블슈팅(차후 정리 필요) 
+1. front-end nginx 사용으로 인한 build 파일 접근 불가 > 권한 설정
+2. properies 파일 외부에서 주입
+   >> 백엔드 배포 서버에 properties 파일 생성, deploy.sh 실행시 jar파일에 주입 : 파일 작성시 띄어쓰기 주의 (\ 줄바꿈 후 띄어쓰기 X, 경로 작성 주의)
+   >> back-end 빌드 실패 >> build 옵션 설정 (테스트 제외)
+
